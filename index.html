@@ -2,1161 +2,356 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Champion de la IA - Aumenta Tu Productividad con IA</title>
-    <meta name="description" content="Transforma tu productividad profesional con IA. El Champion de la IA y 5 cursos especializados. Certificaciones Certiprof GRATUITAS.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Champions AI | Ecosistema de Productividad</title>
     
-    <!-- Fonts -->
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PAYPAL SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAA9PrQ0N3i30W_yPdOAVg0LY9nM_fDIOWrix_gzkYRYy15ThxzJSiKztbLAoxjyapXSpVSm4jmqzNynM&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+
     <style>
         :root {
-            /* Colores Champion actualizados */
-            --primary: #20FFEC;
-            --primary-dark: #023047;
-            --secondary: #22d3ee;
-            --accent: #7c3aed;
-            --success: #34d399;
-            --warning: #f59e0b;
-            --text: #101338;
-            --text-light: #5a6c7d;
-            --background: #0b1220;
-            --card-bg: rgba(255,255,255,0.04);
-            --border: rgba(255,255,255,0.12);
+            /* GLOBAL */
+            --bg-dark: #050A14;
+            --text-light: #ffffff;
+            --transition: 0.4s ease-in-out;
             
-            /* Colores olímpicos por curso */
-            --champion-color: #0077B6;
-            --automatiza-color: #FF4778;
-            --marketing-color: #00B894;
-            --datos-color: #FDCB6E;
-            --liderazgo-color: #636E72;
-            --ceo-color: #7c3aed;
+            /* COLORES POR SECTOR */
+            --color-gobierno: #00B4D8;
+            --color-ventas: #2ECC71;   /* Verde Growth */
+            --color-admin: #9B59B6;    /* Morado Ops */
+            --color-edu: #F1C40F;      /* Amarillo Academy */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Nunito', sans-serif; overflow-x: hidden; background-color: var(--bg-dark); color: white; }
+
+        /* --- SISTEMA SPA --- */
+        .view-container {
+            width: 100%; min-height: 100vh; position: absolute; top: 0; left: 0;
+            transition: opacity var(--transition), transform var(--transition);
+            background: var(--bg-dark);
+        }
+        .view-active { opacity: 1; pointer-events: all; z-index: 10; position: relative; transform: scale(1); }
+        .view-hidden { opacity: 0; pointer-events: none; position: absolute; transform: scale(0.95); z-index: 0; height: 0; overflow: hidden; }
+
+        /* --- VISTA 1: HOME (SELECTOR) --- */
+        .champions-header { padding: 4rem 1.5rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .main-icon-container { width: 120px; height: 120px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 20px rgba(0, 180, 216, 0.2)); }
+        .main-icon { width: 100%; height: auto; object-fit: contain; }
+        
+        .brand-title { font-family: 'Epilogue'; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -1px; }
+        .brand-subtitle { font-size: 1.1rem; color: #a0aab5; max-width: 500px; margin-bottom: 3rem; }
+
+        .sectors-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+            max-width: 500px; margin: 0 auto 3rem; padding: 0 1.5rem;
+        }
+        @media(min-width: 768px) { .sectors-grid { grid-template-columns: repeat(4, 1fr); max-width: 900px; } }
+
+        .sector-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 1.5rem 0.5rem; cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+        }
+        .sector-btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+        
+        .sector-ring {
+            width: 55px; height: 55px; border-radius: 50%; border: 3px solid #333;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s;
+        }
+        .sector-label { font-family: 'Epilogue'; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Hover Effects */
+        .btn-gob:hover .sector-ring { border-color: var(--color-gobierno); color: var(--color-gobierno); box-shadow: 0 0 15px var(--color-gobierno); }
+        .btn-ven:hover .sector-ring { border-color: var(--color-ventas); color: var(--color-ventas); box-shadow: 0 0 15px var(--color-ventas); }
+        .btn-adm:hover .sector-ring { border-color: var(--color-admin); color: var(--color-admin); box-shadow: 0 0 15px var(--color-admin); }
+        .btn-edu:hover .sector-ring { border-color: var(--color-edu); color: var(--color-edu); box-shadow: 0 0 15px var(--color-edu); }
+
+        /* --- COMPONENTES INTERNOS DE LAS VISTAS --- */
+        .internal-nav {
+            padding: 1rem; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+        }
+        .back-btn { background: none; border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        
+        .hero-internal { padding: 3rem 1.5rem; text-align: center; }
+        .hero-title { font-family: 'Epilogue'; font-size: 2.2rem; line-height: 1.1; margin-bottom: 0.5rem; }
+        .hero-desc { font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto 2rem; }
+
+        /* Estilos Específicos GOBIERNO (Claro) */
+        #view-gobierno { background: white; color: #333; }
+        #view-gobierno .internal-nav { background: rgba(255,255,255,0.9); border-bottom: 1px solid #eee; }
+        #view-gobierno .back-btn { color: #0A1E30; }
+        
+        /* Estilos Específicos VENTAS (Oscuro Tech) */
+        #view-ventas { background: #051208; color: white; } /* Fondo verde muy oscuro */
+        #view-ventas .internal-nav { background: rgba(5,18,8,0.9); border-bottom: 1px solid rgba(46, 204, 113, 0.2); }
+        #view-ventas .back-btn { color: var(--color-ventas); }
+        #view-ventas .hero-title { color: var(--color-ventas); }
+
+        /* Estilos Específicos ADMINISTRATIVO (Elegante) */
+        #view-admin { background: #18181b; color: #f4f4f5; } /* Zinc oscuro */
+        #view-admin .internal-nav { background: rgba(24,24,27,0.9); border-bottom: 1px solid rgba(155, 89, 182, 0.2); }
+        #view-admin .back-btn { color: var(--color-admin); }
+        #view-admin .hero-title { color: var(--color-admin); }
+
+        /* Generic Carousel Styles */
+        .carousel-wrapper {
+            display: flex; overflow-x: auto; gap: 15px; padding: 0 1.5rem 2rem;
+            scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .carousel-wrapper::-webkit-scrollbar { display: none; }
+        .c-slide {
+            flex: 0 0 85%; scroll-snap-align: center; border-radius: 12px; overflow: hidden;
+            position: relative; aspect-ratio: 16/9; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-size: cover; background-position: center;
+        }
+        .c-caption {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1rem 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: white; font-family: 'Epilogue'; font-size: 1rem;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: white;
-            background: var(--background);
-            overflow-x: hidden;
+        /* Payment Box */
+        .pay-box {
+            background: rgba(255,255,255,0.05); padding: 2rem 1.5rem; border-radius: 20px;
+            margin: 2rem 1rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);
         }
+        /* Ajuste para modo claro */
+        #view-gobierno .pay-box { background: #F4F7F9; border: 1px solid #DCEEFF; color: #333; }
+        
+        .price-tag { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; display: block; }
+        
+        /* Detalles / Temario */
+        .details-box { padding: 0 1.5rem 3rem; max-width: 800px; margin: 0 auto; }
+        details { background: rgba(255,255,255,0.03); margin-bottom: 0.5rem; border-radius: 8px; overflow: hidden; }
+        #view-gobierno details { background: white; border: 1px solid #eee; }
+        summary { padding: 1rem; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; }
+        summary::after { content: '+'; font-weight: 800; }
+        details[open] summary::after { content: '-'; }
+        .d-content { padding: 1rem; font-size: 0.9rem; opacity: 0.9; line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* Dark Mode Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            padding: 10px 20px;
-            color: white;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--primary);
-            background: rgba(32, 255, 236, 0.1);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header con WOW effect */
-        .hero-section {
-            background: linear-gradient(135deg, var(--background) 0%, #1e293b 50%, var(--primary-dark) 100%);
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%2320FFEC" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-        }
-
-        /* Título con efecto WOW inspirado en CodePen */
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            
-            /* Efecto gradiente animado */
-            background: linear-gradient(
-                45deg,
-                var(--primary) 0%,
-                var(--secondary) 25%,
-                var(--accent) 50%,
-                var(--primary) 75%,
-                var(--secondary) 100%
-            );
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 4s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 3rem;
-            text-align: center;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Badge premium */
-        .champion-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 50px;
-            background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
-            color: var(--primary-dark);
-            font-size: 0.875rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .champion-badge::before {
-            content: '👑';
-            font-size: 1rem;
-        }
-
-        /* Sección "3 Pasos" según blueprint */
-        .steps-section {
-            padding: 4rem 0;
-            background: rgba(32, 255, 236, 0.05);
-        }
-
-        .steps-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .step-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .step-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(32, 255, 236, 0.2);
-        }
-
-        .step-number {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: var(--primary-dark);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-
-        /* Cursos Grid con colores olímpicos */
-        .courses-section {
-            padding: 6rem 0;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, white 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .course-card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--course-color);
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            border-color: var(--course-color);
-        }
-
-        .course-card.champion { --course-color: var(--champion-color); }
-        .course-card.automatiza { --course-color: var(--automatiza-color); }
-        .course-card.marketing { --course-color: var(--marketing-color); }
-        .course-card.datos { --course-color: var(--datos-color); }
-        .course-card.liderazgo { --course-color: var(--liderazgo-color); }
-        .course-card.ceo { --course-color: var(--ceo-color); }
-
-        .course-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--course-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-
-        .course-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--course-color);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .course-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--course-color);
-        }
-
-        .course-price {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 1rem 0;
-        }
-
-        /* Hexágonos "Why Join" según blueprint */
-        .benefits-section {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(32, 255, 236, 0.1) 100%);
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .benefit-hex {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .benefit-hex:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .benefit-hex::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            clip-path: polygon(50% 0%, 0% 38%, 0% 100%, 50% 62%, 100% 100%, 100% 38%);
-        }
-
-        /* Paquetes con "Best Value" */
-        .packages-section {
-            padding: 4rem 0;
-            background: rgba(32, 255, 236, 0.05);
-        }
-
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 2rem auto 0;
-        }
-
-        .package-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .package-card.best-value {
-            border-color: var(--success);
-            transform: scale(1.05);
-        }
-
-        .best-value-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--success);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.875rem;
-        }
-
-        /* Botones */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--primary-dark);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(32, 255, 236, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: var(--primary-dark);
-        }
-
-        /* Testimonios */
-        .testimonials-section {
-            padding: 4rem 0;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .testimonial-role {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.7);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--primary-dark);
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-            
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .package-card.best-value {
-                transform: none;
-            }
-        }
-
-        /* Animaciones de entrada */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌓</button>
 
-    <!-- Hero Section con WOW Factor -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="champion-badge">
-                Conviértete en el Champion de la IA
+    <!-- ==============================================
+         VISTA 1: HOME (SELECTOR DE MUNDOS)
+         ============================================== -->
+    <div id="view-home" class="view-container view-active">
+        <header class="champions-header">
+            <div class="main-icon-container">
+                <img src="https://i.imgur.com/94FzKYD.png" alt="Champions AI" class="main-icon">
             </div>
-            
-            <h1 class="hero-title">
-                PROGRAMA:<br>
-                AUMENTA TU PRODUCTIVIDAD<br>
-                CON IA
-            </h1>
-            
-            <p class="hero-subtitle">
-                Transforma tu trabajo en 30 días con "El Champion de la IA" + 5 cursos especializados. 
-                Certificaciones Certiprof GRATUITAS incluidas.
+            <h1 class="brand-title">CHAMPIONS AI</h1>
+            <p class="brand-subtitle">
+                Productividad Universal.<br>Elige tu área de impacto.
             </p>
-            
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                <a href="#champion" class="btn btn-primary">
-                    👑 Ser Champion de la IA - $399
-                </a>
-                <a href="#cursos" class="btn btn-outline">
-                    📚 Ver Todos los Cursos
-                </a>
-            </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- 3 Pasos para la Certificación -->
-    <section class="steps-section">
-        <div class="container">
-            <h2 class="steps-title">3 Pasos Hacia Tu Certificación</h2>
-            
-            <div class="steps-grid">
-                <div class="step-card fade-in">
-                    <div class="step-number">1</div>
-                    <h3 style="margin: 2rem 0 1rem; color: var(--primary);">PREPARACIÓN</h3>
-                    <p style="color: rgba(255,255,255,0.8);">
-                        Completa "El Champion de la IA" y domina los fundamentos. 
-                        Prompt engineering, automatización básica y sistema personal de productividad.
-                    </p>
-                </div>
-                
-                <div class="step-card fade-in">
-                    <div class="step-number">2</div>
-                    <h3 style="margin: 2rem 0 1rem; color: var(--primary);">ESPECIALIZACIÓN</h3>
-                    <p style="color: rgba(255,255,255,0.8);">
-                        Elige tu ruta: Automatización, Marketing, Datos, Liderazgo o CEO. 
-                        Cada curso incluye certificación Certiprof GRATUITA.
-                    </p>
-                </div>
-                
-                <div class="step-card fade-in">
-                    <div class="step-number">3</div>
-                    <h3 style="margin: 2rem 0 1rem; color: var(--primary);">CERTIFICACIÓN</h3>
-                    <p style="color: rgba(255,255,255,0.8);">
-                        Examen oficial con voucher incluido. 
-                        Participación, Competencia (≥70%) o Avanzado (≥85%) según tu nivel.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Curso Champion Destacado -->
-    <section id="champion" style="padding: 4rem 0; background: linear-gradient(135deg, var(--champion-color) 0%, rgba(0, 119, 182, 0.1) 100%);">
-        <div class="container">
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">👑</div>
-                <h2 style="font-size: 3rem; font-weight: 900; color: var(--champion-color); margin-bottom: 1rem;">
-                    EL CHAMPION DE LA IA
-                </h2>
-                <p style="font-size: 1.25rem; margin-bottom: 2rem; color: rgba(255,255,255,0.9);">
-                    "Domina la IA y Multiplica Tu Productividad en 30 Días"
-                </p>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
-                        <div style="font-size: 2rem;">⏱️</div>
-                        <div style="font-weight: 600;">6 semanas</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
-                        <div style="font-size: 2rem;">🎯</div>
-                        <div style="font-weight: 600;">Modalidad híbrida</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
-                        <div style="font-size: 2rem;">🎓</div>
-                        <div style="font-weight: 600;">Cert. GRATUITA</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
-                        <div style="font-size: 2rem;">📈</div>
-                        <div style="font-weight: 600;">ROI inmediato</div>
-                    </div>
-                </div>
-                
-                <div style="margin: 3rem 0;">
-                    <div style="font-size: 3rem; font-weight: 900; color: var(--primary); margin-bottom: 0.5rem;">$399</div>
-                    <div style="font-size: 1.25rem; color: rgba(255,255,255,0.8);">Premium: $499 (+Microsoft AI Fundamentals)</div>
-                </div>
-                
-                <a href="#inscripcion" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.5rem 3rem;">
-                    🚀 Quiero Ser Champion de la IA
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Catálogo de Cursos -->
-    <section id="cursos" class="courses-section">
-        <div class="container">
-            <h2 class="section-title">Elige Tu Especialización</h2>
-            <p style="text-align: center; font-size: 1.25rem; margin-bottom: 3rem; color: rgba(255,255,255,0.8);">
-                Después de ser Champion, especialízate según tus objetivos profesionales
-            </p>
-            
-            <div class="courses-grid">
-                <!-- Automatiza Tu Negocio -->
-                <div class="course-card automatiza fade-in">
-                    <div class="course-badge">Para PYMEs</div>
-                    <div class="course-icon">⚙️</div>
-                    <h3 class="course-title">Automatiza Tu Negocio</h3>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        De manual a inteligente. Zapier, Make.com y workflows que liberan tiempo para crecer.
-                    </p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;">
-                        <span style="background: rgba(255,71,120,0.2); color: var(--automatiza-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">4 semanas</span>
-                        <span style="background: rgba(255,71,120,0.2); color: var(--automatiza-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">80% Online</span>
-                        <span style="background: rgba(255,71,120,0.2); color: var(--automatiza-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">Microsoft Cert.</span>
-                    </div>
-                    <div class="course-price">$399</div>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Ver Detalles</a>
-                </div>
-
-                <!-- Marketing IA -->
-                <div class="course-card marketing fade-in">
-                    <div class="course-badge">Más Ventas</div>
-                    <div class="course-icon">📈</div>
-                    <h3 class="course-title">Marketing IA</h3>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        Vende más trabajando menos. Contenido viral, chatbots y automatización de campañas.
-                    </p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;">
-                        <span style="background: rgba(0,184,148,0.2); color: var(--marketing-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">4 semanas</span>
-                        <span style="background: rgba(0,184,148,0.2); color: var(--marketing-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">80% Online</span>
-                        <span style="background: rgba(0,184,148,0.2); color: var(--marketing-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">Cert. GRATUITA</span>
-                    </div>
-                    <div class="course-price">$399</div>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Ver Detalles</a>
-                </div>
-
-                <!-- Datos Inteligentes -->
-                <div class="course-card datos fade-in">
-                    <div class="course-badge">Decisiones</div>
-                    <div class="course-icon">📊</div>
-                    <h3 class="course-title">Datos Inteligentes</h3>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        Transforma datos en decisiones que transforman negocios. BI y análisis predictivo.
-                    </p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;">
-                        <span style="background: rgba(253,203,110,0.2); color: var(--datos-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">5 semanas</span>
-                        <span style="background: rgba(253,203,110,0.2); color: var(--datos-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">80% Online</span>
-                        <span style="background: rgba(253,203,110,0.2); color: var(--datos-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">Cert. GRATUITA</span>
-                    </div>
-                    <div class="course-price">$599</div>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Ver Detalles</a>
-                </div>
-
-                <!-- Liderazgo IA -->
-                <div class="course-card liderazgo fade-in">
-                    <div class="course-badge">Líderes</div>
-                    <div class="course-icon">👥</div>
-                    <h3 class="course-title">Liderazgo IA</h3>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        Gestiona equipos del futuro. Metodologías híbridas humano-IA y gestión 4.0.
-                    </p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;">
-                        <span style="background: rgba(99,110,114,0.2); color: var(--liderazgo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">4 semanas</span>
-                        <span style="background: rgba(99,110,114,0.2); color: var(--liderazgo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">80% Online</span>
-                        <span style="background: rgba(99,110,114,0.2); color: var(--liderazgo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">PMI Cert.</span>
-                    </div>
-                    <div class="course-price">$599</div>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Ver Detalles</a>
-                </div>
-
-                <!-- CEO IA -->
-                <div class="course-card ceo fade-in">
-                    <div class="course-badge">Ejecutivos</div>
-                    <div class="course-icon">🏢</div>
-                    <h3 class="course-title">CEO IA</h3>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        Transforma tu empresa al futuro. Estrategia empresarial de IA y liderazgo digital.
-                    </p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;">
-                        <span style="background: rgba(124,58,237,0.2); color: var(--ceo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">6 semanas</span>
-                        <span style="background: rgba(124,58,237,0.2); color: var(--ceo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">+ Mentoría</span>
-                        <span style="background: rgba(124,58,237,0.2); color: var(--ceo-color); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem;">Cert. GRATUITA</span>
-                    </div>
-                    <div class="course-price">$599</div>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Ver Detalles</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hexágonos "Why Join" -->
-    <section class="benefits-section">
-        <div class="container">
-            <h2 class="section-title">¿Por Qué Certificarte con Nosotros?</h2>
-            
-            <div class="benefits-grid">
-                <div class="benefit-hex fade-in">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎯</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Validez Profesional</h3>
-                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                        Certifica habilidades aplicables, no solo teoría. Reconocimiento internacional.
-                    </p>
-                </div>
-                
-                <div class="benefit-hex fade-in">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Ventaja Competitiva</h3>
-                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                        Mejores oportunidades y hasta 56% de aumento salarial comprobado.
-                    </p>
-                </div>
-                
-                <div class="benefit-hex fade-in">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚀</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Impacto en Equipo</h3>
-                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                        Productividad, foco y consistencia. Transforma tu organización.
-                    </p>
-                </div>
-                
-                <div class="benefit-hex fade-in">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Acompañamiento</h3>
-                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                        Mentoría y simulacros orientados a resultados. Soporte completo.
-                    </p>
-                </div>
-                
-                <div class="benefit-hex fade-in">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔒</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Confianza Total</h3>
-                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                        Pagos 100% seguros y certificación reconocida mundialmente.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Paquetes con "Best Value" -->
-    <section class="packages-section">
-        <div class="container">
-            <h2 class="section-title">Elige Tu Ruta de Certificación</h2>
-            <p style="text-align: center; font-size: 1.25rem; margin-bottom: 3rem; color: rgba(255,255,255,0.8);">
-                Ahorra hasta 47% con nuestros paquetes especializados
-            </p>
-            
-            <div class="packages-grid">
-                <!-- PYME Starter -->
-                <div class="package-card fade-in">
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">PYME Starter</h3>
-                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
-                        Champion + Automatiza + Marketing
-                    </p>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;">$999</div>
-                    <div style="text-decoration: line-through; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem;">$1,197 individual</div>
-                    <div style="color: var(--success); font-weight: 600; margin-bottom: 2rem;">Ahorra $198 (17%)</div>
-                    
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 2rem;">
-                        <li>✅ El Champion de la IA (6 sem)</li>
-                        <li>✅ Automatiza Tu Negocio (4 sem)</li>
-                        <li>✅ Marketing IA (4 sem)</li>
-                        <li>✅ 3 Certificaciones GRATUITAS</li>
-                        <li>✅ Hasta 6 cuotas sin interés</li>
-                    </ul>
-                    
-                    <a href="#inscripcion" class="btn btn-primary" style="width: 100%;">
-                        🚀 Empezar PYME Starter
-                    </a>
-                </div>
-                
-                <!-- Profesional Completo -->
-                <div class="package-card best-value fade-in">
-                    <div class="best-value-badge">🏆 Best Value</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Profesional Completo</h3>
-                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
-                        Los 6 cursos + mentoría extendida
-                    </p>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;">$1,999</div>
-                    <div style="text-decoration: line-through; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem;">$2,995 individual</div>
-                    <div style="color: var(--success); font-weight: 600; margin-bottom: 2rem;">Ahorra $996 (33%)</div>
-                    
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 2rem;">
-                        <li>✅ Todos los 6 cursos completos</li>
-                        <li>✅ 6 Certificaciones incluidas</li>
-                        <li>✅ Mentoría grupal extendida</li>
-                        <li>✅ Acceso a comunidad exclusiva</li>
-                        <li>✅ Hasta 12 cuotas sin interés</li>
-                    </ul>
-                    
-                    <a href="#inscripcion" class="btn btn-primary" style="width: 100%;">
-                        ⭐ Elegir Profesional Completo
-                    </a>
-                </div>
-                
-                <!-- Corporativo -->
-                <div class="package-card fade-in">
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Corporativo</h3>
-                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
-                        Equipos de 5+ personas
-                    </p>
-                    <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;">$1,599</div>
-                    <div style="color: rgba(255,255,255,0.7); margin-bottom: 0.5rem;">por usuario</div>
-                    <div style="color: var(--success); font-weight: 600; margin-bottom: 2rem;">Hasta 47% descuento</div>
-                    
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 2rem;">
-                        <li>✅ Programa completo para equipos</li>
-                        <li>✅ Implementación personalizada</li>
-                        <li>✅ Métricas de ROI empresarial</li>
-                        <li>✅ Soporte prioritario</li>
-                        <li>✅ Descuentos por volumen</li>
-                    </ul>
-                    
-                    <a href="#contacto" class="btn btn-outline" style="width: 100%;">
-                        📞 Solicitar Propuesta
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Niveles de Certificación -->
-    <section style="padding: 4rem 0;">
-        <div class="container">
-            <h2 class="section-title">Niveles de Certificación</h2>
-            <p style="text-align: center; font-size: 1.25rem; margin-bottom: 3rem; color: rgba(255,255,255,0.8);">
-                Detalle operativo por nivel de competencia
-            </p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
-                <!-- Participación -->
-                <div style="background: var(--card-bg); border: 2px solid var(--border); border-radius: 20px; padding: 2rem; text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📜</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Participación</h3>
-                    <div style="color: var(--success); font-weight: 700; margin-bottom: 1rem;">INCLUIDO</div>
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8;">
-                        <li>Completar curso y actividades mínimas</li>
-                        <li>Acceso a materiales por 1 año</li>
-                        <li>Certificado de participación</li>
-                        <li>Sin costo adicional</li>
-                    </ul>
-                </div>
-                
-                <!-- Competencia -->
-                <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 20px; padding: 2rem; text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Competencia ≥70%</h3>
-                    <div style="color: var(--success); font-weight: 700; margin-bottom: 1rem;">VOUCHER INCLUIDO</div>
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8;">
-                        <li>Examen oficial de dificultad moderada</li>
-                        <li>2 intentos incluidos</li>
-                        <li>Certificación internacional válida</li>
-                        <li>Voucher incluido en el precio</li>
-                    </ul>
-                </div>
-                
-                <!-- Avanzado -->
-                <div style="background: var(--card-bg); border: 2px solid var(--warning); border-radius: 20px; padding: 2rem; text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
-                    <h3 style="color: var(--warning); margin-bottom: 1rem;">Avanzado ≥85%</h3>
-                    <div style="color: var(--warning); font-weight: 700; margin-bottom: 1rem;">+$25-50 USD</div>
-                    <ul style="text-align: left; color: rgba(255,255,255,0.8); line-height: 1.8;">
-                        <li>Examen exigente + proyecto final</li>
-                        <li>Validación práctica de habilidades</li>
-                        <li>Certificación premium</li>
-                        <li>Opcional - máximo reconocimiento</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonios -->
-    <section class="testimonials-section">
-        <div class="container">
-            <h2 class="section-title">Lo Que Dicen Nuestros Champions</h2>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card fade-in">
-                    <p class="testimonial-text">
-                        "En 30 días pasé de no saber qué era un prompt a automatizar el 80% de mis reportes. 
-                        Ahorro 3 horas diarias y mi jefe ya me pregunta cómo lo hago."
-                    </p>
-                    <div class="testimonial-author">María González</div>
-                    <div class="testimonial-role">Analista de Marketing, PYME Guatemala</div>
-                </div>
-                
-                <div class="testimonial-card fade-in">
-                    <p class="testimonial-text">
-                        "El curso Champion me dio las bases perfectas. Después tomé Marketing IA y mis campañas 
-                        ahora generan 300% más leads con la mitad del esfuerzo."
-                    </p>
-                    <div class="testimonial-author">Carlos Mendez</div>
-                    <div class="testimonial-role">Director Comercial, Startup Tech</div>
-                </div>
-                
-                <div class="testimonial-card fade-in">
-                    <p class="testimonial-text">
-                        "Como CEO, necesitaba entender la IA estratégicamente. El programa me dio un roadmap 
-                        claro y ya estamos implementando IA en 4 departamentos."
-                    </p>
-                    <div class="testimonial-author">Ana Lucía Hernández</div>
-                    <div class="testimonial-role">CEO, Empresa Familiar 150+ empleados</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Métodos de Pago y Seguridad -->
-    <section style="padding: 3rem 0; background: rgba(32, 255, 236, 0.05);">
-        <div class="container">
-            <h3 style="text-align: center; color: var(--primary); margin-bottom: 2rem;">Métodos de Pago y Seguridad</h3>
-            
-            <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <div style="background: white; padding: 1rem; border-radius: 12px; min-width: 80px; text-align: center;">
-                    <div style="color: #003087; font-weight: bold;">PayPal</div>
-                </div>
-                <div style="background: white; padding: 1rem; border-radius: 12px; min-width: 80px; text-align: center;">
-                    <div style="color: #000; font-weight: bold;">Apple Pay</div>
-                </div>
-                <div style="background: white; padding: 1rem; border-radius: 12px; min-width: 80px; text-align: center;">
-                    <div style="color: #4285f4; font-weight: bold;">Google Pay</div>
-                </div>
-                <div style="background: white; padding: 1rem; border-radius: 12px; min-width: 80px; text-align: center;">
-                    <img src="https://corizitec.com/wp-content/uploads/2021/03/logo-certiprof-600x600.jpeg" 
-                         alt="Certiprof" style="height: 40px; object-fit: contain;">
-                </div>
+        <div class="sectors-grid">
+            <!-- 1. GOBIERNO -->
+            <div class="sector-btn btn-gob" onclick="switchView('gobierno')">
+                <div class="sector-ring"><i class="fa-solid fa-landmark"></i></div>
+                <span class="sector-label">Gobierno</span>
             </div>
             
-            <p style="text-align: center; color: rgba(255,255,255,0.8);">
-                🔒 Pagos 100% seguros • 💳 Hasta 12 cuotas sin interés • 🎓 Certificación reconocida internacionalmente
-            </p>
-        </div>
-    </section>
+            <!-- 2. VENTAS -->
+            <div class="sector-btn btn-ven" onclick="switchView('ventas')">
+                <div class="sector-ring"><i class="fa-solid fa-chart-line"></i></div>
+                <span class="sector-label">Ventas</span>
+            </div>
 
-    <!-- CTA Final -->
-    <section id="inscripcion" style="padding: 6rem 0; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--background) 100%);">
-        <div class="container">
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem; color: var(--primary);">
-                    🚀 ¿Listo para Ser el Champion de la IA?
-                </h2>
-                <p style="font-size: 1.25rem; color: rgba(255,255,255,0.8); margin-bottom: 3rem;">
-                    Únete a cientos de profesionales guatemaltecos que ya transformaron su productividad
-                </p>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-                    <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.5rem 3rem;">
-                        👑 Empezar Champion - $399
-                    </a>
-                    <a href="#" class="btn btn-outline" style="font-size: 1.2rem; padding: 1.5rem 3rem;">
-                        💬 Hablar con Asesor
-                    </a>
-                </div>
-                
-                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 16px; margin-top: 2rem;">
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Canales de Contacto</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">📧 Email</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">alejandroortegaguerra@gmail.com</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">contacto@ant-ara.com</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">💬 Telegram</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">@productividadconia</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">@innovarconalejandro</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">🌐 Sitios Web</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">ant-ara.com</div>
-                            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">innovarconalejandro.com</div>
-                        </div>
-                    </div>
-                </div>
+            <!-- 3. ADMINISTRATIVO (Reemplaza a Compras) -->
+            <div class="sector-btn btn-adm" onclick="switchView('admin')">
+                <div class="sector-ring"><i class="fa-solid fa-clipboard-check"></i></div>
+                <span class="sector-label">Administrativo</span>
+            </div>
+
+            <!-- 4. EDUCATIVO -->
+            <div class="sector-btn btn-edu" onclick="alert('Próximamente: Champions Academy para Docentes.')">
+                <div class="sector-ring"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="sector-label">Educativo</span>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">🏢 Ant-Ara</h4>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">La sombrilla estratégica para tu transformación IA</p>
-                </div>
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">📱 Innovar con Alejandro</h4>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Contenido y comunidad especializada en productividad</p>
-                </div>
-                <div>
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">🤝 Despacho de Jorge</h4>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Acompañamiento comercial y crecimiento profesional</p>
-                </div>
+        <footer style="text-align:center; padding:2rem; opacity:0.5; font-size:0.8rem;">
+            Respaldado por <strong>ANT-ARA</strong>
+        </footer>
+    </div>
+
+
+    <!-- ==============================================
+         VISTA 2: GOBIERNO (AVANZA - CLARO)
+         ============================================== -->
+    <div id="view-gobierno" class="view-container view-hidden">
+        <nav class="internal-nav">
+            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:#0A1E30;">AVANZA</span>
+        </nav>
+
+        <div class="hero-internal">
+            <img src="1000272619.jpg" style="width:100px; height:100px; border-radius:50%; margin-bottom:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <h2 class="hero-title" style="color:#0A1E30;">Gestión Pública</h2>
+            <p class="hero-desc" style="color:#555;">La certificación definitiva para el funcionario moderno. Eficiencia y transparencia.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="c-slide" style="background: linear-gradient(135deg, #005691, #00B4D8);">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(255,255,255,0.3);"><i class="fa-solid fa-file-contract"></i></div>
+                <div class="c-caption">Reducción de Burocracia: Automatiza oficios y actas.</div>
             </div>
-            
-            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2rem; opacity: 0.8; font-size: 0.9rem;">
-                <p>© 2024 Programa: Aumenta Tu Productividad con IA | Ant-Ara · Innovar con Alejandro · Despacho de Jorge</p>
-                <p style="margin-top: 0.5rem;">Transformando la productividad profesional en Guatemala 🇬🇹</p>
+            <div class="c-slide" style="background: #0093E9;">
+                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white;">
+                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
+                    <div style="font-weight:700;">CERTIPROF GAIPC</div>
+                </div>
+                <div class="c-caption">Certificación Internacional Incluida.</div>
             </div>
         </div>
-    </footer>
 
+        <div class="pay-box">
+            <span class="price-tag" style="color:#0A1E30;">$99 USD <small style="font-size:0.9rem; font-weight:400; color:#888; text-decoration:line-through;">$300</small></span>
+            <div id="paypal-gobierno"></div>
+        </div>
+
+        <div class="details-box">
+            <h3 style="margin-bottom:1rem; color:#0A1E30; font-family:'Epilogue';">Lo que lograrás</h3>
+            <details><summary>Marco Legal y Ético</summary><div class="d-content">Implementación de IA cumpliendo normativas.</div></details>
+            <details><summary>Gestión Documental</summary><div class="d-content">Crea y resume documentos oficiales en segundos.</div></details>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         VISTA 3: VENTAS (CHAMPIONS SALES - VERDE)
+         ============================================== -->
+    <div id="view-ventas" class="view-container view-hidden">
+        <nav class="internal-nav">
+            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Menú</button>
+            <span style="font-weight:800; color:var(--color-ventas);">SALES</span>
+        </nav>
+
+        <div class="hero-internal">
+            <div style="width:80px; height:80px; background:var(--color-ventas); border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2rem; color:black;"><i class="fa-solid fa-rocket"></i></div>
+            <h2 class="hero-title">Crecimiento Exponencial</h2>
+            <p class="hero-desc">Deja de perder tiempo en CRM y empieza a cerrar tratos. Automatiza tu prospección.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="c-slide" style="background: linear-gradient(135deg, #051208, #145A32);">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(46,204,113,0.3);"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <div class="c-caption">Cold Emails que sí responden.</div>
+            </div>
+            <div class="c-slide" style="background: #27AE60;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(0,0,0,0.3);"><i class="fa-solid fa-handshake"></i></div>
+                <div class="c-caption">Manejo de objeciones en tiempo real.</div>
+            </div>
+        </div>
+
+        <div class="pay-box">
+            <span class="price-tag" style="color:var(--color-ventas);">$99 USD</span>
+            <!-- Aquí iría otro botón de PayPal diferente si el producto es distinto -->
+            <div id="paypal-ventas"></div> 
+        </div>
+
+        <div class="details-box">
+            <h3 style="margin-bottom:1rem; color:white; font-family:'Epilogue';">Temario Growth</h3>
+            <details><summary>Prospección Infinita</summary><div class="d-content">Genera bases de datos y scripts de contacto.</div></details>
+            <details><summary>Cierre de Ventas</summary><div class="d-content">Negociación asistida por IA.</div></details>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         VISTA 4: ADMINISTRATIVO (CHAMPIONS OPS - MORADO)
+         ============================================== -->
+    <div id="view-admin" class="view-container view-hidden">
+        <nav class="internal-nav">
+            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Menú</button>
+            <span style="font-weight:800; color:var(--color-admin);">ADMIN</span>
+        </nav>
+
+        <div class="hero-internal">
+            <div style="width:80px; height:80px; background:var(--color-admin); border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2rem; color:white;"><i class="fa-solid fa-gears"></i></div>
+            <h2 class="hero-title">Excelencia Operativa</h2>
+            <p class="hero-desc">Para RRHH, Finanzas y Administración. Recupera 2 horas de tu día eliminando tareas repetitivas.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="c-slide" style="background: linear-gradient(135deg, #2c3e50, #4a235a);">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(155,89,182,0.3);"><i class="fa-solid fa-table"></i></div>
+                <div class="c-caption">Excel: De Pesadilla a Magia en segundos.</div>
+            </div>
+            <div class="c-slide" style="background: #8E44AD;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(255,255,255,0.3);"><i class="fa-solid fa-clock"></i></div>
+                <div class="c-caption">Minutas, correos y reportes automáticos.</div>
+            </div>
+        </div>
+
+        <div class="pay-box">
+            <span class="price-tag" style="color:var(--color-admin);">$99 USD</span>
+            <div id="paypal-admin"></div> 
+        </div>
+
+        <div class="details-box">
+            <h3 style="margin-bottom:1rem; color:white; font-family:'Epilogue';">Optimización Total</h3>
+            <details><summary>Excel & Data</summary><div class="d-content">Análisis financiero y limpieza de datos.</div></details>
+            <details><summary>Comunicación Interna</summary><div class="d-content">Redacción corporativa perfecta.</div></details>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const root = document.documentElement;
+        // Sistema de Navegación
+        function switchView(viewName) {
+            // Ocultar todas las vistas
+            document.querySelectorAll('.view-container').forEach(el => {
+                el.classList.remove('view-active');
+                el.classList.add('view-hidden');
+            });
 
-        // Check for saved theme or default to dark
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        if (savedTheme === 'light') {
-            root.classList.add('light');
-            themeToggle.textContent = '🌙';
-        } else {
-            themeToggle.textContent = '🌓';
-        }
-
-        themeToggle.addEventListener('click', () => {
-            root.classList.toggle('light');
-            const isLight = root.classList.contains('light');
+            // Mostrar la deseada
+            const target = document.getElementById('view-' + viewName);
+            target.classList.remove('view-hidden');
             
-            themeToggle.textContent = isLight ? '🌙' : '🌓';
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            
-            // Smooth transition
-            root.style.setProperty('--transition', 'all 0.3s ease');
+            // Pequeño delay para permitir que el DOM renderice antes de la transición CSS
             setTimeout(() => {
-                root.style.removeProperty('--transition');
-            }, 300);
-        });
+                target.classList.add('view-active');
+                window.scrollTo(0, 0);
+            }, 10);
+        }
 
-        // Light mode styles
-        const lightModeStyles = `
-            .light {
-                --background: #ffffff;
-                --text: #101338;
-                --text-light: #5a6c7d;
-                --card-bg: rgba(255,255,255,0.9);
-                --border: rgba(16,19,56,0.1);
-            }
-            
-            .light body {
-                color: var(--text);
-            }
-            
-            .light .hero-section {
-                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
-            }
-            
-            .light .theme-toggle {
-                background: rgba(16,19,56,0.1);
-                color: var(--text);
-                border-color: rgba(16,19,56,0.2);
-            }
-        `;
+        // Renderizado de PayPal (Usamos el mismo botón para demo, pero lógica preparada para distintos IDs)
+        // NOTA: Para producción, crea botones distintos en PayPal y pon sus IDs aquí.
+        const commonButtonId = "BFYND2G5D64UA"; 
+        
+        function renderPayPal(containerId, buttonId) {
+            try {
+                document.getElementById(containerId).innerHTML = ""; // Limpiar
+                paypal.HostedButtons({
+                    hostedButtonId: buttonId
+                }).render("#" + containerId);
+            } catch(e) { console.log("PayPal waiting for " + containerId); }
+        }
 
-        // Add light mode styles to head
-        const style = document.createElement('style');
-        style.textContent = lightModeStyles;
-        document.head.appendChild(style);
-
-        // Smooth scroll para enlaces internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Animaciones al scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        // Renderizar al cargar
+        window.onload = function() {
+            renderPayPal("paypal-gobierno", commonButtonId);
+            renderPayPal("paypal-ventas", commonButtonId);
+            renderPayPal("paypal-admin", commonButtonId);
         };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Aplicar animaciones a elementos con fade-in
-        document.querySelectorAll('.fade-in').forEach(element => {
-            observer.observe(element);
-        });
-
-        // Analytics tracking (placeholder)
-        function trackEvent(eventName, data) {
-            console.log('Analytics Event:', eventName, data);
-            // Aquí integrarías con Google Analytics, Facebook Pixel, etc.
-        }
-
-        // Track button clicks
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const text = this.textContent.trim();
-                trackEvent('button_click', {
-                    button_text: text,
-                    section: this.closest('section')?.className || 'unknown'
-                });
-            });
-        });
-
-        // Efecto parallax sutil en hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroSection = document.querySelector('.hero-section');
-            if (heroSection) {
-                heroSection.style.transform = `translateY(${scrolled * 0.1}px)`;
-            }
-        });
-
-        // Contador de visitantes (simulado)
-        function updateVisitorCount() {
-            const count = Math.floor(Math.random() * 50) + 1200;
-            const elements = document.querySelectorAll('.visitor-count');
-            elements.forEach(el => {
-                el.textContent = count;
-            });
-        }
-
-        updateVisitorCount();
-        setInterval(updateVisitorCount, 30000); // Actualizar cada 30 segundos
     </script>
+
 </body>
 </html>
+
