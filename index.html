@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Champions AI | Ecosistema de Productividad</title>
+    <title>Champions AI | Estándar de Productividad con IA</title>
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,340 +18,571 @@
 
     <style>
         :root {
-            /* GLOBAL */
+            /* BRAND COLORS */
             --bg-dark: #050A14;
             --text-light: #ffffff;
-            --transition: 0.4s ease-in-out;
+            --accent-blue: #00B4D8;
+            --accent-green: #2ECC71;
+            --accent-purple: #9B59B6;
+            --accent-gold: #F1C40F;
             
-            /* COLORES POR SECTOR */
-            --color-gobierno: #00B4D8;
-            --color-ventas: #2ECC71;   /* Verde Growth */
-            --color-admin: #9B59B6;    /* Morado Ops */
-            --color-edu: #F1C40F;      /* Amarillo Academy */
+            /* UI CONSTANTS */
+            --radius: 16px;
+            --transition: 0.3s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Nunito', sans-serif; overflow-x: hidden; background-color: var(--bg-dark); color: white; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { font-family: 'Nunito', sans-serif; background-color: var(--bg-dark); color: white; overflow-x: hidden; }
 
-        /* --- SISTEMA SPA --- */
+        /* --- SPA VIEW SYSTEM --- */
         .view-container {
             width: 100%; min-height: 100vh; position: absolute; top: 0; left: 0;
             transition: opacity var(--transition), transform var(--transition);
             background: var(--bg-dark);
+            padding-bottom: 3rem;
+            display: none; /* Por defecto ocultos para optimizar carga */
         }
-        .view-active { opacity: 1; pointer-events: all; z-index: 10; position: relative; transform: scale(1); }
-        .view-hidden { opacity: 0; pointer-events: none; position: absolute; transform: scale(0.95); z-index: 0; height: 0; overflow: hidden; }
-
-        /* --- VISTA 1: HOME (SELECTOR) --- */
-        .champions-header { padding: 4rem 1.5rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .main-icon-container { width: 120px; height: 120px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 20px rgba(0, 180, 216, 0.2)); }
-        .main-icon { width: 100%; height: auto; object-fit: contain; }
+        /* Solo el activo se muestra */
+        .view-active { display: block; opacity: 1; pointer-events: all; z-index: 10; position: relative; animation: fadeIn 0.4s ease-out; }
         
-        .brand-title { font-family: 'Epilogue'; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -1px; }
-        .brand-subtitle { font-size: 1.1rem; color: #a0aab5; max-width: 500px; margin-bottom: 3rem; }
-
-        .sectors-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
-            max-width: 500px; margin: 0 auto 3rem; padding: 0 1.5rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
-        @media(min-width: 768px) { .sectors-grid { grid-template-columns: repeat(4, 1fr); max-width: 900px; } }
 
-        .sector-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; padding: 1.5rem 0.5rem; cursor: pointer; transition: 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+        /* =========================================
+           VISTA 1: HOME (CHAMPIONS AI - DARK)
+           ========================================= */
+        #view-home {
+            background: radial-gradient(circle at top, #1a2a44 0%, #050A14 60%);
+            display: flex; flex-direction: column; align-items: center;
         }
-        .sector-btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+
+        .home-header { padding: 4rem 1.5rem 2rem; text-align: center; max-width: 800px; }
         
-        .sector-ring {
-            width: 55px; height: 55px; border-radius: 50%; border: 3px solid #333;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s;
+        /* AURA DEL LOGO */
+        .main-logo-container {
+            width: 120px; height: 120px; margin: 0 auto 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            filter: drop-shadow(0 0 30px rgba(0, 180, 216, 0.4));
         }
-        .sector-label { font-family: 'Epilogue'; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .brand-h1 { font-family: 'Epilogue', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; }
+        .brand-p { font-size: 1.1rem; color: #a0aab5; line-height: 1.6; }
+
+        /* GRID */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+            padding: 0 1.5rem 4rem; max-width: 600px; width: 100%;
+        }
+
+        .card-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); padding: 1.5rem 1rem; cursor: pointer; text-align: center;
+            transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+        }
+        .card-btn:hover { transform: translateY(-5px); }
+
+        .card-icon {
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #444;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white;
+            transition: var(--transition); z-index: 2;
+        }
+        .card-title { font-family: 'Epilogue', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; }
 
         /* Hover Effects */
-        .btn-gob:hover .sector-ring { border-color: var(--color-gobierno); color: var(--color-gobierno); box-shadow: 0 0 15px var(--color-gobierno); }
-        .btn-ven:hover .sector-ring { border-color: var(--color-ventas); color: var(--color-ventas); box-shadow: 0 0 15px var(--color-ventas); }
-        .btn-adm:hover .sector-ring { border-color: var(--color-admin); color: var(--color-admin); box-shadow: 0 0 15px var(--color-admin); }
-        .btn-edu:hover .sector-ring { border-color: var(--color-edu); color: var(--color-edu); box-shadow: 0 0 15px var(--color-edu); }
+        .gob:hover { border-color: var(--accent-blue); box-shadow: 0 0 25px rgba(0,180,216,0.4); }
+        .gob:hover .card-icon { border-color: var(--accent-blue); color: var(--accent-blue); }
+        
+        .ven:hover { border-color: var(--accent-green); box-shadow: 0 0 25px rgba(46, 204, 113, 0.4); }
+        .ven:hover .card-icon { border-color: var(--accent-green); color: var(--accent-green); }
+        
+        .adm:hover { border-color: var(--accent-purple); box-shadow: 0 0 25px rgba(155, 89, 182, 0.4); }
+        .adm:hover .card-icon { border-color: var(--accent-purple); color: var(--accent-purple); }
+        
+        .edu:hover { border-color: var(--accent-gold); box-shadow: 0 0 25px rgba(241, 196, 15, 0.4); }
+        .edu:hover .card-icon { border-color: var(--accent-gold); color: var(--accent-gold); }
 
-        /* --- COMPONENTES INTERNOS DE LAS VISTAS --- */
-        .internal-nav {
-            padding: 1rem; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+        /* PERSONALIZACIÓN (ARCOÍRIS) */
+        .card-custom {
+            grid-column: span 2; background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px dashed rgba(255,255,255,0.3); flex-direction: row; justify-content: center; text-align: left;
         }
-        .back-btn { background: none; border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        @keyframes rainbow-glow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .card-custom:hover {
+            border-color: transparent;
+            background: linear-gradient(270deg, rgba(0,180,216,0.2), rgba(46,204,113,0.2), rgba(155,89,182,0.2), rgba(241,196,15,0.2));
+            background-size: 300% 300%; animation: rainbow-glow 4s ease infinite; box-shadow: 0 0 30px rgba(255,255,255,0.15);
+        }
+        .custom-text h3 { font-family: 'Epilogue'; font-size: 1rem; margin-bottom: 0.2rem; }
+        .custom-text p { font-size: 0.8rem; color: #aaa; }
+
+        /* =========================================
+           COMPONENTES COMUNES INTERNOS
+           ========================================= */
+        .nav-sticky {
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+        }
+        .btn-back { border: none; background: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
         
-        .hero-internal { padding: 3rem 1.5rem; text-align: center; }
-        .hero-title { font-family: 'Epilogue'; font-size: 2.2rem; line-height: 1.1; margin-bottom: 0.5rem; }
-        .hero-desc { font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto 2rem; }
+        .hero-internal { padding: 3rem 1.5rem 1rem; text-align: center; }
+        .hero-logo { width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-bottom: 1rem; object-fit: cover; }
+        .hero-title { font-family: 'Epilogue'; font-size: 2rem; line-height: 1.1; margin-bottom: 0.5rem; }
+        .hero-p { max-width: 500px; margin: 0 auto; opacity: 0.9; }
 
-        /* Estilos Específicos GOBIERNO (Claro) */
-        #view-gobierno { background: white; color: #333; }
-        #view-gobierno .internal-nav { background: rgba(255,255,255,0.9); border-bottom: 1px solid #eee; }
-        #view-gobierno .back-btn { color: #0A1E30; }
-        
-        /* Estilos Específicos VENTAS (Oscuro Tech) */
-        #view-ventas { background: #051208; color: white; } /* Fondo verde muy oscuro */
-        #view-ventas .internal-nav { background: rgba(5,18,8,0.9); border-bottom: 1px solid rgba(46, 204, 113, 0.2); }
-        #view-ventas .back-btn { color: var(--color-ventas); }
-        #view-ventas .hero-title { color: var(--color-ventas); }
-
-        /* Estilos Específicos ADMINISTRATIVO (Elegante) */
-        #view-admin { background: #18181b; color: #f4f4f5; } /* Zinc oscuro */
-        #view-admin .internal-nav { background: rgba(24,24,27,0.9); border-bottom: 1px solid rgba(155, 89, 182, 0.2); }
-        #view-admin .back-btn { color: var(--color-admin); }
-        #view-admin .hero-title { color: var(--color-admin); }
-
-        /* Generic Carousel Styles */
+        /* Carrusel */
         .carousel-wrapper {
-            display: flex; overflow-x: auto; gap: 15px; padding: 0 1.5rem 2rem;
+            display: flex; overflow-x: auto; gap: 15px; padding: 1.5rem 1.5rem 3rem;
             scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;
         }
         .carousel-wrapper::-webkit-scrollbar { display: none; }
         .c-slide {
             flex: 0 0 85%; scroll-snap-align: center; border-radius: 12px; overflow: hidden;
-            position: relative; aspect-ratio: 16/9; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background-size: cover; background-position: center;
+            position: relative; aspect-ratio: 16/9; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         .c-caption {
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1rem 1rem;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: white; font-family: 'Epilogue'; font-size: 1rem;
+            color: white; font-family: 'Epilogue'; font-size: 1rem; font-weight: 700;
         }
+        .slide-icon-bg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: rgba(255,255,255,0.2); }
 
-        /* Payment Box */
-        .pay-box {
-            background: rgba(255,255,255,0.05); padding: 2rem 1.5rem; border-radius: 20px;
-            margin: 2rem 1rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+        /* Syllabus */
+        .syllabus-container { padding: 0 1.5rem 2rem; max-width: 800px; margin: 0 auto; }
+        .module-item { border-left: 3px solid rgba(255,255,255,0.1); padding-left: 1.5rem; margin-bottom: 2rem; position: relative; }
+        .module-item::before {
+            content: ''; position: absolute; left: -9px; top: 0;
+            width: 15px; height: 15px; background: var(--bg-dark); border: 3px solid #555; border-radius: 50%;
         }
-        /* Ajuste para modo claro */
-        #view-gobierno .pay-box { background: #F4F7F9; border: 1px solid #DCEEFF; color: #333; }
+        .mod-title { font-weight: 700; display: block; margin-bottom: 0.5rem; }
+        .mod-desc { font-size: 0.9rem; opacity: 0.7; line-height: 1.5; }
+
+        /* Price */
+        .price-section { padding: 3rem 1.5rem; text-align: center; border-top-left-radius: 30px; border-top-right-radius: 30px; background: rgba(0,0,0,0.2); }
+        .price-display { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+
+        /* --- ESTILOS ESPECÍFICOS POR TEMA --- */
         
-        .price-tag { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; display: block; }
+        /* GOBIERNO (LIGHT) */
+        #view-gobierno { background: #ffffff; color: #333; }
+        #view-gobierno .nav-sticky { background: rgba(255,255,255,0.95); border-bottom: 1px solid #eee; }
+        #view-gobierno .btn-back { color: #0A1E30; }
+        #view-gobierno .hero-internal { background: linear-gradient(180deg, #F4F7F9 0%, #fff 100%); }
+        #view-gobierno .module-item { border-left-color: #eee; }
+        #view-gobierno .module-item::before { background: #fff; border-color: var(--accent-blue); }
+        #view-gobierno .price-section { background: #0A1E30; color: white; }
+
+        /* VENTAS (DARK GREEN) */
+        #view-ventas { background: #051208; color: #eefcf2; }
+        #view-ventas .nav-sticky { background: rgba(5,18,8,0.95); border-color: rgba(46, 204, 113, 0.2); }
+        #view-ventas .btn-back { color: var(--accent-green); }
+        #view-ventas .module-item::before { border-color: var(--accent-green); }
+        #view-ventas .price-display { color: var(--accent-green); }
         
-        /* Detalles / Temario */
-        .details-box { padding: 0 1.5rem 3rem; max-width: 800px; margin: 0 auto; }
-        details { background: rgba(255,255,255,0.03); margin-bottom: 0.5rem; border-radius: 8px; overflow: hidden; }
-        #view-gobierno details { background: white; border: 1px solid #eee; }
-        summary { padding: 1rem; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; }
-        summary::after { content: '+'; font-weight: 800; }
-        details[open] summary::after { content: '-'; }
-        .d-content { padding: 1rem; font-size: 0.9rem; opacity: 0.9; line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.05); }
+        /* ADMIN (DARK PURPLE) */
+        #view-admin { background: #120a1f; color: #f3eefc; }
+        #view-admin .nav-sticky { background: rgba(18,10,31,0.95); border-color: rgba(155, 89, 182, 0.2); }
+        #view-admin .btn-back { color: var(--accent-purple); }
+        #view-admin .module-item::before { border-color: var(--accent-purple); }
+        #view-admin .price-display { color: var(--accent-purple); }
+
+        /* EDU (DARK GOLD) */
+        #view-edu { background: #1a1600; color: #fffbeb; }
+        #view-edu .nav-sticky { background: rgba(26,22,0,0.95); border-color: rgba(241, 196, 15, 0.2); }
+        #view-edu .btn-back { color: var(--accent-gold); }
+        #view-edu .module-item::before { border-color: var(--accent-gold); }
+        #view-edu .price-display { color: var(--accent-gold); }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--transition); padding: 1.5rem;
+        }
+        .modal-active { opacity: 1; pointer-events: all; }
+        .modal-content {
+            background: #111; border: 1px solid #333; padding: 2rem; border-radius: 20px; width: 100%; max-width: 500px;
+            transform: translateY(20px); transition: var(--transition); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .modal-active .modal-content { transform: translateY(0); }
+        .btn-close-modal { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
+        .contact-form input, .contact-form textarea, .contact-form select {
+            width: 100%; padding: 1rem; margin-bottom: 1rem; background: #222; border: 1px solid #444; border-radius: 8px; color: white;
+        }
+        .contact-form button {
+            width: 100%; padding: 1rem; border-radius: 8px; border: none; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            color: white; font-weight: 700; font-family: 'Epilogue'; cursor: pointer; font-size: 1.1rem;
+        }
 
     </style>
 </head>
 <body>
 
     <!-- ==============================================
-         VISTA 1: HOME (SELECTOR DE MUNDOS)
+         VISTA 1: HOME (SELECTOR)
          ============================================== -->
     <div id="view-home" class="view-container view-active">
-        <header class="champions-header">
-            <div class="main-icon-container">
-                <img src="https://i.imgur.com/94FzKYD.png" alt="Champions AI" class="main-icon">
+        <header class="home-header">
+            <div class="main-logo-container">
+                <img src="https://i.imgur.com/94FzKYD.png" style="width:100%;" alt="Champions AI">
             </div>
-            <h1 class="brand-title">CHAMPIONS AI</h1>
-            <p class="brand-subtitle">
-                Productividad Universal.<br>Elige tu área de impacto.
+            <h1 class="brand-h1">CHAMPIONS AI</h1>
+            <p class="brand-p">
+                La metodología estándar de productividad.<br>
+                <span style="color: var(--accent-blue);">Personalizable para cualquier industria.</span>
             </p>
         </header>
 
-        <div class="sectors-grid">
+        <div class="grid-container">
             <!-- 1. GOBIERNO -->
-            <div class="sector-btn btn-gob" onclick="switchView('gobierno')">
-                <div class="sector-ring"><i class="fa-solid fa-landmark"></i></div>
-                <span class="sector-label">Gobierno</span>
-            </div>
-            
-            <!-- 2. VENTAS -->
-            <div class="sector-btn btn-ven" onclick="switchView('ventas')">
-                <div class="sector-ring"><i class="fa-solid fa-chart-line"></i></div>
-                <span class="sector-label">Ventas</span>
+            <div class="card-btn gob" onclick="switchView('gobierno')">
+                <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
+                <span class="card-title">Gobierno</span>
             </div>
 
-            <!-- 3. ADMINISTRATIVO (Reemplaza a Compras) -->
-            <div class="sector-btn btn-adm" onclick="switchView('admin')">
-                <div class="sector-ring"><i class="fa-solid fa-clipboard-check"></i></div>
-                <span class="sector-label">Administrativo</span>
+            <!-- 2. VENTAS -->
+            <div class="card-btn ven" onclick="switchView('ventas')">
+                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <span class="card-title">Ventas</span>
+            </div>
+
+            <!-- 3. ADMINISTRATIVO -->
+            <div class="card-btn adm" onclick="switchView('admin')">
+                <div class="card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                <span class="card-title">Admin</span>
             </div>
 
             <!-- 4. EDUCATIVO -->
-            <div class="sector-btn btn-edu" onclick="alert('Próximamente: Champions Academy para Docentes.')">
-                <div class="sector-ring"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span class="sector-label">Educativo</span>
+            <div class="card-btn edu" onclick="switchView('edu')">
+                <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="card-title">Educativo</span>
+            </div>
+
+            <!-- 5. PERSONALIZACIÓN -->
+            <div class="card-btn card-custom" onclick="toggleModal(true)">
+                <div class="card-icon" style="border-color:white;"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="custom-text">
+                    <h3>¿Tu industria no está aquí?</h3>
+                    <p>Adaptamos el curso a Inmobiliarias, Salud, Legal...</p>
+                </div>
             </div>
         </div>
 
-        <footer style="text-align:center; padding:2rem; opacity:0.5; font-size:0.8rem;">
-            Respaldado por <strong>ANT-ARA</strong>
+        <footer style="margin-top:auto; padding:2rem; text-align:center; opacity:0.5; font-size:0.8rem;">
+            © 2025 Ant-Ara Strategic Group
         </footer>
     </div>
 
 
     <!-- ==============================================
-         VISTA 2: GOBIERNO (AVANZA - CLARO)
+         VISTA 2: GOBIERNO (BLANCO/AZUL)
          ============================================== -->
-    <div id="view-gobierno" class="view-container view-hidden">
-        <nav class="internal-nav">
-            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+    <div id="view-gobierno" class="view-container">
+        <div class="nav-sticky">
+            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
             <span style="font-weight:800; color:#0A1E30;">AVANZA</span>
-        </nav>
-
+        </div>
         <div class="hero-internal">
-            <img src="1000272619.jpg" style="width:100px; height:100px; border-radius:50%; margin-bottom:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <img src="1000272619.jpg" class="hero-logo" alt="Logo Avanza">
             <h2 class="hero-title" style="color:#0A1E30;">Gestión Pública</h2>
-            <p class="hero-desc" style="color:#555;">La certificación definitiva para el funcionario moderno. Eficiencia y transparencia.</p>
+            <p class="hero-p" style="color:#555;">La certificación definitiva para el funcionario moderno. Eficiencia y transparencia.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #005691, #00B4D8);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(255,255,255,0.3);"><i class="fa-solid fa-file-contract"></i></div>
+                <div class="slide-icon-bg"><i class="fa-solid fa-file-contract"></i></div>
                 <div class="c-caption">Reducción de Burocracia: Automatiza oficios y actas.</div>
             </div>
+            <div class="c-slide" style="background: linear-gradient(135deg, #0A1E30, #2c3e50);">
+                <div class="slide-icon-bg"><i class="fa-solid fa-chart-pie"></i></div>
+                <div class="c-caption">Toma de Decisiones: Análisis de datos públicos.</div>
+            </div>
             <div class="c-slide" style="background: #0093E9;">
-                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white;">
+                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
                     <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
-                    <div style="font-weight:700;">CERTIPROF GAIPC</div>
+                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
                 </div>
-                <div class="c-caption">Certificación Internacional Incluida.</div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Certificación Internacional Incluida.</div>
             </div>
         </div>
 
-        <div class="pay-box">
-            <span class="price-tag" style="color:#0A1E30;">$99 USD <small style="font-size:0.9rem; font-weight:400; color:#888; text-decoration:line-through;">$300</small></span>
-            <div id="paypal-gobierno"></div>
+        <div class="syllabus-container">
+            <h3 style="font-family:'Epilogue'; color:#0A1E30; margin-bottom:1.5rem; text-align:center;">Temario Gobierno</h3>
+            <div class="module-item">
+                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
+                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y marco ético/legal.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Módulo 2: Taller de Ofimática (CORE)</span>
+                <p class="mod-desc">Dominio de herramientas para resumir, redactar y analizar documentos.</p>
+            </div>
+            <div class="module-item" style="border-left-color: var(--accent-blue);">
+                <span class="mod-title" style="color:var(--accent-blue);">Módulo 3: Especialización Gobierno</span>
+                <p class="mod-desc">Análisis de Presupuestos, Automatización de Minutas y Chatbots básicos de atención.</p>
+            </div>
         </div>
 
-        <div class="details-box">
-            <h3 style="margin-bottom:1rem; color:#0A1E30; font-family:'Epilogue';">Lo que lograrás</h3>
-            <details><summary>Marco Legal y Ético</summary><div class="d-content">Implementación de IA cumpliendo normativas.</div></details>
-            <details><summary>Gestión Documental</summary><div class="d-content">Crea y resume documentos oficiales en segundos.</div></details>
+        <div class="price-section">
+            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Únete a AVANZA</h2>
+            <div class="price-display" style="color:#00B4D8;">$99 USD</div>
+            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+                <div id="paypal-gob"></div>
+            </div>
         </div>
     </div>
 
 
     <!-- ==============================================
-         VISTA 3: VENTAS (CHAMPIONS SALES - VERDE)
+         VISTA 3: VENTAS (OSCURO/VERDE)
          ============================================== -->
-    <div id="view-ventas" class="view-container view-hidden">
-        <nav class="internal-nav">
-            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Menú</button>
-            <span style="font-weight:800; color:var(--color-ventas);">SALES</span>
-        </nav>
-
+    <div id="view-ventas" class="view-container">
+        <div class="nav-sticky">
+            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:var(--accent-green);">GROWTH</span>
+        </div>
         <div class="hero-internal">
-            <div style="width:80px; height:80px; background:var(--color-ventas); border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2rem; color:black;"><i class="fa-solid fa-rocket"></i></div>
-            <h2 class="hero-title">Crecimiento Exponencial</h2>
-            <p class="hero-desc">Deja de perder tiempo en CRM y empieza a cerrar tratos. Automatiza tu prospección.</p>
+            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-green); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#051208; font-size:2.5rem;"><i class="fa-solid fa-rocket"></i></div>
+            <h2 class="hero-title" style="color:var(--accent-green);">Aceleración Comercial</h2>
+            <p class="hero-p">El copiloto de tu CRM. Deja de ingresar datos y dedícate a cerrar tratos.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #051208, #145A32);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(46,204,113,0.3);"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div class="c-caption">Cold Emails que sí responden.</div>
+                <div class="slide-icon-bg"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <div class="c-caption">Scripts Persuasivos: Genera correos que sí responden.</div>
+            </div>
+            <div class="c-slide" style="background: linear-gradient(135deg, #145A32, #27AE60);">
+                <div class="slide-icon-bg"><i class="fa-solid fa-handshake"></i></div>
+                <div class="c-caption">Objeciones: Respuestas inteligentes en tiempo real.</div>
             </div>
             <div class="c-slide" style="background: #27AE60;">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(0,0,0,0.3);"><i class="fa-solid fa-handshake"></i></div>
-                <div class="c-caption">Manejo de objeciones en tiempo real.</div>
+                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#051208; padding-bottom:1rem;">
+                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
+                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
+                </div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Certificación Internacional Incluida.</div>
             </div>
         </div>
 
-        <div class="pay-box">
-            <span class="price-tag" style="color:var(--color-ventas);">$99 USD</span>
-            <!-- Aquí iría otro botón de PayPal diferente si el producto es distinto -->
-            <div id="paypal-ventas"></div> 
+        <div class="syllabus-container">
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Growth</h3>
+            <div class="module-item">
+                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
+                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y marco ético.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
+                <p class="mod-desc">Herramientas esenciales para agilizar tu flujo de trabajo diario.</p>
+            </div>
+            <div class="module-item" style="border-left-color: var(--accent-green);">
+                <span class="mod-title" style="color:var(--accent-green);">Módulo 3: Especialización Ventas</span>
+                <p class="mod-desc">Generación de Leads, Análisis de clientes y Negociación asistida.</p>
+            </div>
         </div>
 
-        <div class="details-box">
-            <h3 style="margin-bottom:1rem; color:white; font-family:'Epilogue';">Temario Growth</h3>
-            <details><summary>Prospección Infinita</summary><div class="d-content">Genera bases de datos y scripts de contacto.</div></details>
-            <details><summary>Cierre de Ventas</summary><div class="d-content">Negociación asistida por IA.</div></details>
+        <div class="price-section">
+            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Acelera tus Ventas</h2>
+            <div class="price-display">$99 USD</div>
+            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+                <div id="paypal-ven"></div>
+            </div>
         </div>
     </div>
 
 
     <!-- ==============================================
-         VISTA 4: ADMINISTRATIVO (CHAMPIONS OPS - MORADO)
+         VISTA 4: ADMIN (OSCURO/MORADO)
          ============================================== -->
-    <div id="view-admin" class="view-container view-hidden">
-        <nav class="internal-nav">
-            <button class="back-btn" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Menú</button>
-            <span style="font-weight:800; color:var(--color-admin);">ADMIN</span>
-        </nav>
-
+    <div id="view-admin" class="view-container">
+        <div class="nav-sticky">
+            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:var(--accent-purple);">ADMIN</span>
+        </div>
         <div class="hero-internal">
-            <div style="width:80px; height:80px; background:var(--color-admin); border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2rem; color:white;"><i class="fa-solid fa-gears"></i></div>
-            <h2 class="hero-title">Excelencia Operativa</h2>
-            <p class="hero-desc">Para RRHH, Finanzas y Administración. Recupera 2 horas de tu día eliminando tareas repetitivas.</p>
+            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-purple); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5rem;"><i class="fa-solid fa-gears"></i></div>
+            <h2 class="hero-title" style="color:var(--accent-purple);">Excelencia Operativa</h2>
+            <p class="hero-p">Recupera 2 horas de tu día. Automatiza reportes, correos y tareas repetitivas.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #2c3e50, #4a235a);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(155,89,182,0.3);"><i class="fa-solid fa-table"></i></div>
-                <div class="c-caption">Excel: De Pesadilla a Magia en segundos.</div>
+                <div class="slide-icon-bg"><i class="fa-solid fa-table"></i></div>
+                <div class="c-caption">Excel Mágico: Limpieza y análisis de datos.</div>
+            </div>
+            <div class="c-slide" style="background: linear-gradient(135deg, #4a235a, #8E44AD);">
+                <div class="slide-icon-bg"><i class="fa-solid fa-pen-nib"></i></div>
+                <div class="c-caption">Redacción Corporativa: Minutas y correos perfectos.</div>
             </div>
             <div class="c-slide" style="background: #8E44AD;">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(255,255,255,0.3);"><i class="fa-solid fa-clock"></i></div>
-                <div class="c-caption">Minutas, correos y reportes automáticos.</div>
+                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
+                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
+                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
+                </div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Certificación Internacional Incluida.</div>
             </div>
         </div>
 
-        <div class="pay-box">
-            <span class="price-tag" style="color:var(--color-admin);">$99 USD</span>
-            <div id="paypal-admin"></div> 
+        <div class="syllabus-container">
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Admin</h3>
+            <div class="module-item">
+                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
+                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y privacidad de datos.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
+                <p class="mod-desc">Herramientas de ofimática esenciales.</p>
+            </div>
+            <div class="module-item" style="border-left-color: var(--accent-purple);">
+                <span class="mod-title" style="color:var(--accent-purple);">Módulo 3: Especialización Admin</span>
+                <p class="mod-desc">Automatización de Excel, Gestión de Agendas y Comunicación Interna.</p>
+            </div>
         </div>
 
-        <div class="details-box">
-            <h3 style="margin-bottom:1rem; color:white; font-family:'Epilogue';">Optimización Total</h3>
-            <details><summary>Excel & Data</summary><div class="d-content">Análisis financiero y limpieza de datos.</div></details>
-            <details><summary>Comunicación Interna</summary><div class="d-content">Redacción corporativa perfecta.</div></details>
+        <div class="price-section">
+            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Optimiza tu Trabajo</h2>
+            <div class="price-display">$99 USD</div>
+            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+                <div id="paypal-adm"></div>
+            </div>
         </div>
     </div>
 
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ==============================================
+         VISTA 5: EDUCATIVO (OSCURO/DORADO)
+         ============================================== -->
+    <div id="view-edu" class="view-container">
+        <div class="nav-sticky">
+            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:var(--accent-gold);">ACADEMY</span>
+        </div>
+        <div class="hero-internal">
+            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-gold); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#1a1600; font-size:2.5rem;"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h2 class="hero-title" style="color:var(--accent-gold);">Innovación Académica</h2>
+            <p class="hero-p">Menos burocracia, más enseñanza. Personaliza el aprendizaje y automatiza la planificación.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="c-slide" style="background: linear-gradient(135deg, #332b00, #F1C40F);">
+                <div class="slide-icon-bg"><i class="fa-solid fa-book-open"></i></div>
+                <div class="c-caption">Planificación: Rúbricas y planes de clase al instante.</div>
+            </div>
+            <div class="c-slide" style="background: linear-gradient(135deg, #F1C40F, #d4ac0d);">
+                <div class="slide-icon-bg"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="c-caption">Personalización: Material didáctico adaptado.</div>
+            </div>
+            <div class="c-slide" style="background: #F1C40F;">
+                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#1a1600; padding-bottom:1rem;">
+                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
+                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
+                </div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Certificación Internacional Incluida.</div>
+            </div>
+        </div>
+
+        <div class="syllabus-container">
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Docente</h3>
+            <div class="module-item">
+                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
+                <p class="mod-desc">Entendimiento de la IA Generativa, prompts y ética académica.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
+                <p class="mod-desc">Herramientas administrativas para docentes.</p>
+            </div>
+            <div class="module-item" style="border-left-color: var(--accent-gold);">
+                <span class="mod-title" style="color:var(--accent-gold);">Módulo 3: Especialización Educación</span>
+                <p class="mod-desc">Creación de Rúbricas, Exámenes y Planes de Clase Personalizados.</p>
+            </div>
+        </div>
+
+        <div class="price-section">
+            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Transforma tu Aula</h2>
+            <div class="price-display">$99 USD</div>
+            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+                <div id="paypal-edu"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL DE CONTACTO -->
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal-content">
+            <button class="btn-close-modal" onclick="toggleModal(false)"><i class="fa-solid fa-times"></i></button>
+            <h2 style="font-family:'Epilogue'; margin-bottom:1rem;">Personaliza tu Programa</h2>
+            <p style="color:#ccc; margin-bottom:2rem;">Déjanos tus datos y diseñaremos una propuesta para tu industria o empresa.</p>
+            
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Gracias! Te contactaremos pronto.'); toggleModal(false);">
+                <input type="text" placeholder="Nombre completo" required>
+                <input type="email" placeholder="Correo electrónico" required>
+                <select required>
+                    <option value="" disabled selected>Selecciona tu Industria</option>
+                    <option value="inmobiliaria">Inmobiliaria</option>
+                    <option value="salud">Salud / Farmacéutica</option>
+                    <option value="legal">Legal</option>
+                    <option value="retail">Retail / Comercio</option>
+                    <option value="otra">Otra</option>
+                </select>
+                <textarea placeholder="Cuéntanos tus necesidades específicas" rows="4"></textarea>
+                <button type="submit">Solicitar Propuesta</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Sistema de Navegación
+        // Navegación SPA
         function switchView(viewName) {
-            // Ocultar todas las vistas
-            document.querySelectorAll('.view-container').forEach(el => {
-                el.classList.remove('view-active');
-                el.classList.add('view-hidden');
+            const home = document.getElementById('view-home');
+            
+            // Ocultar todas las vistas primero
+            document.querySelectorAll('.view-container').forEach(v => {
+                v.classList.remove('view-active');
+                // Pequeño timeout para display:none
+                setTimeout(() => v.style.display = 'none', 300); 
             });
 
-            // Mostrar la deseada
-            const target = document.getElementById('view-' + viewName);
-            target.classList.remove('view-hidden');
-            
-            // Pequeño delay para permitir que el DOM renderice antes de la transición CSS
-            setTimeout(() => {
-                target.classList.add('view-active');
-                window.scrollTo(0, 0);
-            }, 10);
+            if (viewName === 'home') {
+                home.style.display = 'flex';
+                setTimeout(() => home.classList.add('view-active'), 10);
+            } else {
+                const target = document.getElementById('view-' + viewName);
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.classList.add('view-active');
+                    window.scrollTo(0,0);
+                }, 10);
+            }
         }
 
-        // Renderizado de PayPal (Usamos el mismo botón para demo, pero lógica preparada para distintos IDs)
-        // NOTA: Para producción, crea botones distintos en PayPal y pon sus IDs aquí.
-        const commonButtonId = "BFYND2G5D64UA"; 
-        
-        function renderPayPal(containerId, buttonId) {
+        // Control del Modal
+        function toggleModal(show) {
+            const modal = document.getElementById('contact-modal');
+            if (show) {
+                modal.classList.add('modal-active');
+            } else {
+                modal.classList.remove('modal-active');
+            }
+        }
+
+        // Render PayPal (Reutilizando el mismo botón ID para todos por ahora)
+        const btnId = "BFYND2G5D64UA";
+        function renderBtn(container) {
             try {
-                document.getElementById(containerId).innerHTML = ""; // Limpiar
-                paypal.HostedButtons({
-                    hostedButtonId: buttonId
-                }).render("#" + containerId);
-            } catch(e) { console.log("PayPal waiting for " + containerId); }
+                document.getElementById(container).innerHTML = "";
+                paypal.HostedButtons({ hostedButtonId: btnId }).render("#" + container);
+            } catch(e) {}
         }
 
-        // Renderizar al cargar
         window.onload = function() {
-            renderPayPal("paypal-gobierno", commonButtonId);
-            renderPayPal("paypal-ventas", commonButtonId);
-            renderPayPal("paypal-admin", commonButtonId);
+            renderBtn("paypal-gob");
+            renderBtn("paypal-ven");
+            renderBtn("paypal-adm");
+            renderBtn("paypal-edu");
         };
     </script>
-
 </body>
 </html>
+
 
