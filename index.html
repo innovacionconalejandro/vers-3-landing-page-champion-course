@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Champions AI | Estándar de Productividad con IA</title>
     
-    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- PAYPAL SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=BAA9PrQ0N3i30W_yPdOAVg0LY9nM_fDIOWrix_gzkYRYy15ThxzJSiKztbLAoxjyapXSpVSm4jmqzNynM&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
 
     <style>
@@ -21,10 +18,10 @@
             /* BRAND COLORS */
             --bg-dark: #050A14;
             --text-light: #ffffff;
-            --accent-blue: #00B4D8;
-            --accent-green: #2ECC71;
-            --accent-purple: #9B59B6;
-            --accent-gold: #F1C40F;
+            --accent-blue: #00B4D8; /* Gobierno: Azul Eléctrico */
+            --accent-green: #2ECC71; /* Ventas: Naranja Brillante - Ajustado a Verde para el diseño */
+            --accent-purple: #9B59B6; /* Admin/Operaciones: Morado */
+            --accent-gold: #F1C40F; /* Educativo: Dorado */
             
             /* UI CONSTANTS */
             --radius: 16px;
@@ -40,9 +37,10 @@
             transition: opacity var(--transition), transform var(--transition);
             background: var(--bg-dark);
             padding-bottom: 3rem;
-            display: none; /* Por defecto ocultos para optimizar carga */
+            display: none; 
+            opacity: 0;
+            pointer-events: none;
         }
-        /* Solo el activo se muestra */
         .view-active { display: block; opacity: 1; pointer-events: all; z-index: 10; position: relative; animation: fadeIn 0.4s ease-out; }
         
         @keyframes fadeIn {
@@ -60,12 +58,69 @@
 
         .home-header { padding: 4rem 1.5rem 2rem; text-align: center; max-width: 800px; }
         
-        /* AURA DEL LOGO */
+        /* --- EFECTO AURA IRIDISCENTE (META-LIKE) --- */
         .main-logo-container {
-            width: 120px; height: 120px; margin: 0 auto 1.5rem;
+            width: 130px; height: 130px; margin: 0 auto 1.5rem;
+            position: relative;
             display: flex; align-items: center; justify-content: center;
-            filter: drop-shadow(0 0 30px rgba(0, 180, 216, 0.4));
+            border-radius: 50%;
+            /* El truco del fondo giratorio */
+            background: #050A14; /* Fondo oscuro para tapar el centro */
+            z-index: 1;
         }
+
+        /* El anillo brillante detrás */
+        .main-logo-container::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            background: conic-gradient(
+                from 0deg, 
+                var(--accent-blue), 
+                var(--accent-green), 
+                var(--accent-gold), 
+                var(--accent-purple), 
+                var(--accent-blue) /* Repetir el primero para cerrar el ciclo suavemente */
+            );
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(8px); /* El efecto "glow" o neón */
+            animation: spin-aura 4s linear infinite; /* Girando suavemente */
+        }
+
+        /* Un segundo anillo más nítido para definir el borde */
+        .main-logo-container::after {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            background: conic-gradient(
+                from 0deg, 
+                var(--accent-blue), 
+                var(--accent-green), 
+                var(--accent-gold), 
+                var(--accent-purple), 
+                var(--accent-blue)
+            );
+            border-radius: 50%;
+            z-index: -1;
+            animation: spin-aura 4s linear infinite;
+        }
+
+        @keyframes spin-aura {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* La imagen del logo encima de todo */
+        .main-logo-img {
+            width: 100%; height: 100%; object-fit: contain;
+            border-radius: 50%;
+            background: var(--bg-dark); /* Asegura que el logo tenga fondo oscuro */
+            padding: 2px; /* Pequeño margen interno */
+            z-index: 2;
+        }
+
+
         .brand-h1 { font-family: 'Epilogue', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; }
         .brand-p { font-size: 1.1rem; color: #a0aab5; line-height: 1.6; }
 
@@ -131,6 +186,9 @@
         .hero-logo { width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-bottom: 1rem; object-fit: cover; }
         .hero-title { font-family: 'Epilogue'; font-size: 2rem; line-height: 1.1; margin-bottom: 0.5rem; }
         .hero-p { max-width: 500px; margin: 0 auto; opacity: 0.9; }
+        
+        /* OUV Título */
+        .ouv-claim { font-family: 'Epilogue', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1rem; padding: 0 1.5rem; }
 
         /* Carrusel */
         .carousel-wrapper {
@@ -219,52 +277,43 @@
 </head>
 <body>
 
-    <!-- ==============================================
-         VISTA 1: HOME (SELECTOR)
-         ============================================== -->
     <div id="view-home" class="view-container view-active">
         <header class="home-header">
             <div class="main-logo-container">
-                <img src="https://i.imgur.com/94FzKYD.png" style="width:100%;" alt="Champions AI">
+                <img src="https://i.imgur.com/94FzKYD.png" class="main-logo-img" alt="Champions AI">
             </div>
-            <h1 class="brand-h1">CHAMPIONS AI</h1>
+            <h1 class="brand-h1">CHAMPIONS AI: El 80/20 de la Productividad</h1>
             <p class="brand-p">
-                La metodología estándar de productividad.<br>
-                <span style="color: var(--accent-blue);">Personalizable para cualquier industria.</span>
+                Obtén resultados de **alto valor** en tu industria. El **80% es Estrategia** (Core), el **20% es la Solución de tu Sector** (Especialización).
             </p>
         </header>
 
         <div class="grid-container">
-            <!-- 1. GOBIERNO -->
             <div class="card-btn gob" onclick="switchView('gobierno')">
                 <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
-                <span class="card-title">Gobierno</span>
+                <span class="card-title">Gobierno y Municipalidades</span>
             </div>
 
-            <!-- 2. VENTAS -->
             <div class="card-btn ven" onclick="switchView('ventas')">
                 <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <span class="card-title">Ventas</span>
+                <span class="card-title">Ventas y Marketing</span>
             </div>
 
-            <!-- 3. ADMINISTRATIVO -->
             <div class="card-btn adm" onclick="switchView('admin')">
                 <div class="card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                <span class="card-title">Admin</span>
+                <span class="card-title">Excelencia Operativa</span>
             </div>
 
-            <!-- 4. EDUCATIVO -->
             <div class="card-btn edu" onclick="switchView('edu')">
                 <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span class="card-title">Educativo</span>
+                <span class="card-title">Docencia y Educación</span>
             </div>
 
-            <!-- 5. PERSONALIZACIÓN -->
             <div class="card-btn card-custom" onclick="toggleModal(true)">
                 <div class="card-icon" style="border-color:white;"><i class="fa-solid fa-layer-group"></i></div>
                 <div class="custom-text">
                     <h3>¿Tu industria no está aquí?</h3>
-                    <p>Adaptamos el curso a Inmobiliarias, Salud, Legal...</p>
+                    <p>Adaptamos el curso a Salud, Logística, Finanzas y tu ruta de herramienta.</p>
                 </div>
             </div>
         </div>
@@ -275,9 +324,6 @@
     </div>
 
 
-    <!-- ==============================================
-         VISTA 2: GOBIERNO (BLANCO/AZUL)
-         ============================================== -->
     <div id="view-gobierno" class="view-container">
         <div class="nav-sticky">
             <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
@@ -285,41 +331,47 @@
         </div>
         <div class="hero-internal">
             <img src="1000272619.jpg" class="hero-logo" alt="Logo Avanza">
-            <h2 class="hero-title" style="color:#0A1E30;">Gestión Pública</h2>
-            <p class="hero-p" style="color:#555;">La certificación definitiva para el funcionario moderno. Eficiencia y transparencia.</p>
+            <h2 class="hero-title" style="color:#0A1E30;">IA para Gestión Pública</h2>
+            <p class="hero-p" style="color:#555;">Optimiza trámites, atención ciudadana y toma de decisiones con datos.</p>
+            <p class="ouv-claim" style="color:#00B4D8;">**ENFOQUE CLAVE:** Uso de IA para análisis presupuestario y predicción de demanda de servicios.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #005691, #00B4D8);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-file-contract"></i></div>
-                <div class="c-caption">Reducción de Burocracia: Automatiza oficios y actas.</div>
+                <div class="c-caption">Digitalización y Servicios: Chatbots de atención ciudadana.</div>
             </div>
             <div class="c-slide" style="background: linear-gradient(135deg, #0A1E30, #2c3e50);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-chart-pie"></i></div>
-                <div class="c-caption">Toma de Decisiones: Análisis de datos públicos.</div>
+                <div class="c-caption">Transparencia: Análisis predictivo para seguridad y gestión de recursos.</div>
             </div>
             <div class="c-slide" style="background: #0093E9;">
                 <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
                     <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
                     <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
                 </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Certificación Internacional Incluida.</div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Preparación para Google AI Essentials o Microsoft AI-900.</div>
             </div>
         </div>
 
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:#0A1E30; margin-bottom:1.5rem; text-align:center;">Temario Gobierno</h3>
+            <h3 style="font-family:'Epilogue'; color:#0A1E30; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Gobierno)</h3>
+            
             <div class="module-item">
-                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
-                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y marco ético/legal.</p>
+                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
+                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
             </div>
             <div class="module-item">
-                <span class="mod-title">Módulo 2: Taller de Ofimática (CORE)</span>
-                <p class="mod-desc">Dominio de herramientas para resumir, redactar y analizar documentos.</p>
+                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
+                <p class="mod-desc">Anatomía del Prompt Perfecto (Rol, Tarea, Restricciones). Técnicas Avanzadas como Chain-of-Thought (CoT).</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
+                <p class="mod-desc">Automatización de tareas repetitivas (resúmenes, correos) y gestión de documentos con IA para insights clave.</p>
             </div>
             <div class="module-item" style="border-left-color: var(--accent-blue);">
-                <span class="mod-title" style="color:var(--accent-blue);">Módulo 3: Especialización Gobierno</span>
-                <p class="mod-desc">Análisis de Presupuestos, Automatización de Minutas y Chatbots básicos de atención.</p>
+                <span class="mod-title" style="color:var(--accent-blue);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
+                <p class="mod-desc">**PROYECTO TÁCTICO:** Automatización de 3 Trámites Clave y desarrollo de modelos predictivos para la Gestión de Recursos Públicos.</p>
             </div>
         </div>
 
@@ -327,15 +379,13 @@
             <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Únete a AVANZA</h2>
             <div class="price-display" style="color:#00B4D8;">$99 USD</div>
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
-                <div id="paypal-gob"></div>
+                <div id="paypal-gob"></div> 
             </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
 
-    <!-- ==============================================
-         VISTA 3: VENTAS (OSCURO/VERDE)
-         ============================================== -->
     <div id="view-ventas" class="view-container">
         <div class="nav-sticky">
             <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
@@ -343,41 +393,46 @@
         </div>
         <div class="hero-internal">
             <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-green); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#051208; font-size:2.5rem;"><i class="fa-solid fa-rocket"></i></div>
-            <h2 class="hero-title" style="color:var(--accent-green);">Aceleración Comercial</h2>
-            <p class="hero-p">El copiloto de tu CRM. Deja de ingresar datos y dedícate a cerrar tratos.</p>
+            <h2 class="hero-title" style="color:var(--accent-green);">Ventas y Marketing</h2>
+            <p class="hero-p">Optimización de embudos, contenido publicitario y análisis de mercado con IA.</p>
+            <p class="ouv-claim" style="color:var(--accent-green);">**ENFOQUE CLAVE:** Profundiza en el uso de IA para segmentación y copywriting de alto rendimiento.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #051208, #145A32);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div class="c-caption">Scripts Persuasivos: Genera correos que sí responden.</div>
+                <div class="c-caption">Copywriting: Generación de contenido publicitario que convierte.</div>
             </div>
             <div class="c-slide" style="background: linear-gradient(135deg, #145A32, #27AE60);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-handshake"></i></div>
-                <div class="c-caption">Objeciones: Respuestas inteligentes en tiempo real.</div>
+                <div class="c-caption">Análisis: Análisis predictivo de leads y casos prácticos en CRMs.</div>
             </div>
             <div class="c-slide" style="background: #27AE60;">
                 <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#051208; padding-bottom:1rem;">
                     <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
                     <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
                 </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Certificación Internacional Incluida.</div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Preparación para Google AI Essentials o Microsoft AI-900.</div>
             </div>
         </div>
 
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Growth</h3>
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Ventas)</h3>
             <div class="module-item">
-                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
-                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y marco ético.</p>
+                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
+                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
             </div>
             <div class="module-item">
-                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
-                <p class="mod-desc">Herramientas esenciales para agilizar tu flujo de trabajo diario.</p>
+                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
+                <p class="mod-desc">Anatomía del Prompt Perfecto (Roles, Tarea, Restricciones). Práctica con herramientas generativas clave.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
+                <p class="mod-desc">Automatización de tareas repetitivas (resúmenes, correos) y extracción de insights de textos largos con IA.</p>
             </div>
             <div class="module-item" style="border-left-color: var(--accent-green);">
-                <span class="mod-title" style="color:var(--accent-green);">Módulo 3: Especialización Ventas</span>
-                <p class="mod-desc">Generación de Leads, Análisis de clientes y Negociación asistida.</p>
+                <span class="mod-title" style="color:var(--accent-green);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
+                <p class="mod-desc">**PROYECTO TÁCTICO:** Módulos especializados en Segmentación de Audiencias, Copywriting de Alto Rendimiento y Análisis Predictivo de Leads.</p>
             </div>
         </div>
 
@@ -387,55 +442,58 @@
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-ven"></div>
             </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
 
-    <!-- ==============================================
-         VISTA 4: ADMIN (OSCURO/MORADO)
-         ============================================== -->
     <div id="view-admin" class="view-container">
         <div class="nav-sticky">
             <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-            <span style="font-weight:800; color:var(--accent-purple);">ADMIN</span>
+            <span style="font-weight:800; color:var(--accent-purple);">OPERACIONES</span>
         </div>
         <div class="hero-internal">
             <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-purple); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5rem;"><i class="fa-solid fa-gears"></i></div>
             <h2 class="hero-title" style="color:var(--accent-purple);">Excelencia Operativa</h2>
             <p class="hero-p">Recupera 2 horas de tu día. Automatiza reportes, correos y tareas repetitivas.</p>
+            <p class="ouv-claim" style="color:var(--accent-purple);">**ENFOQUE CLAVE:** Optimización de Cadenas de Suministro y Automatización de Procesos de Negocio (RPA).</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #2c3e50, #4a235a);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-table"></i></div>
-                <div class="c-caption">Excel Mágico: Limpieza y análisis de datos.</div>
+                <div class="c-caption">Datos y Excel: Limpieza, análisis y estructuración de información no organizada.</div>
             </div>
             <div class="c-slide" style="background: linear-gradient(135deg, #4a235a, #8E44AD);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-pen-nib"></i></div>
-                <div class="c-caption">Redacción Corporativa: Minutas y correos perfectos.</div>
+                <div class="c-caption">Redacción Corporativa: Minutas, informes y correos perfectos.</div>
             </div>
             <div class="c-slide" style="background: #8E44AD;">
                 <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
                     <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
                     <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
                 </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Certificación Internacional Incluida.</div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Preparación para Google AI Essentials o Microsoft AI-900.</div>
             </div>
         </div>
 
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Admin</h3>
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Operaciones)</h3>
             <div class="module-item">
-                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
-                <p class="mod-desc">Entendimiento de la IA Generativa, ingeniería de instrucciones y privacidad de datos.</p>
+                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
+                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
             </div>
             <div class="module-item">
-                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
-                <p class="mod-desc">Herramientas de ofimática esenciales.</p>
+                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
+                <p class="mod-desc">Anatomía del Prompt Perfecto. Técnicas Avanzadas: Chain-of-Thought para la resolución de problemas.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
+                <p class="mod-desc">Automatización de Tareas Repetitivas (resúmenes de reuniones, redacción de correos) y extracción de insights clave.</p>
             </div>
             <div class="module-item" style="border-left-color: var(--accent-purple);">
-                <span class="mod-title" style="color:var(--accent-purple);">Módulo 3: Especialización Admin</span>
-                <p class="mod-desc">Automatización de Excel, Gestión de Agendas y Comunicación Interna.</p>
+                <span class="mod-title" style="color:var(--accent-purple);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
+                <p class="mod-desc">**PROYECTO TÁCTICO:** Optimización de Cadena de Suministro (Predicción de demanda) y Automatización de Procesos de Negocio (RPA y Chatbots).</p>
             </div>
         </div>
 
@@ -445,13 +503,11 @@
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-adm"></div>
             </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
 
-    <!-- ==============================================
-         VISTA 5: EDUCATIVO (OSCURO/DORADO)
-         ============================================== -->
     <div id="view-edu" class="view-container">
         <div class="nav-sticky">
             <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
@@ -460,40 +516,45 @@
         <div class="hero-internal">
             <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-gold); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#1a1600; font-size:2.5rem;"><i class="fa-solid fa-graduation-cap"></i></div>
             <h2 class="hero-title" style="color:var(--accent-gold);">Innovación Académica</h2>
-            <p class="hero-p">Menos burocracia, más enseñanza. Personaliza el aprendizaje y automatiza la planificación.</p>
+            <p class="hero-p">Personaliza el aprendizaje, automatiza tareas administrativas y creación de materiales.</p>
+            <p class="ouv-claim" style="color:var(--accent-gold);">**ENFOQUE CLAVE:** Diseña rutas de aprendizaje adaptativas y automatiza la calificación de exámenes.</p>
         </div>
 
         <div class="carousel-wrapper">
             <div class="c-slide" style="background: linear-gradient(135deg, #332b00, #F1C40F);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-book-open"></i></div>
-                <div class="c-caption">Planificación: Rúbricas y planes de clase al instante.</div>
+                <div class="c-caption">Planificación: Creación automatizada de planes de estudio, rúbricas y ejercicios.</div>
             </div>
             <div class="c-slide" style="background: linear-gradient(135deg, #F1C40F, #d4ac0d);">
                 <div class="slide-icon-bg"><i class="fa-solid fa-chalkboard-user"></i></div>
-                <div class="c-caption">Personalización: Material didáctico adaptado.</div>
+                <div class="c-caption">Personalización: Sistemas de recomendación y tutoria inteligente.</div>
             </div>
             <div class="c-slide" style="background: #F1C40F;">
                 <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#1a1600; padding-bottom:1rem;">
                     <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
                     <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
                 </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Certificación Internacional Incluida.</div>
+                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Preparación para Google AI Essentials o Microsoft AI-900.</div>
             </div>
         </div>
 
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario Docente</h3>
+            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Docencia)</h3>
             <div class="module-item">
-                <span class="mod-title">Módulo 1: Fundamentos y Ética (CORE)</span>
-                <p class="mod-desc">Entendimiento de la IA Generativa, prompts y ética académica.</p>
+                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
+                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
             </div>
             <div class="module-item">
-                <span class="mod-title">Módulo 2: Taller de Productividad (CORE)</span>
-                <p class="mod-desc">Herramientas administrativas para docentes.</p>
+                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
+                <p class="mod-desc">Anatomía del Prompt Perfecto. Prompting para la ideación generativa de contenidos y soluciones.</p>
+            </div>
+            <div class="module-item">
+                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
+                <p class="mod-desc">Automatización de Tareas Repetitivas (ej. resúmenes de textos, gestión de calendario) y extracción de insights.</p>
             </div>
             <div class="module-item" style="border-left-color: var(--accent-gold);">
-                <span class="mod-title" style="color:var(--accent-gold);">Módulo 3: Especialización Educación</span>
-                <p class="mod-desc">Creación de Rúbricas, Exámenes y Planes de Clase Personalizados.</p>
+                <span class="mod-title" style="color:var(--accent-gold);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
+                <p class="mod-desc">**PROYECTO TÁCTICO:** Módulos especializados en Rutas de Aprendizaje Adaptativas, Automatización de Calificación y Análisis Predictivo de Deserción Estudiantil.</p>
             </div>
         </div>
 
@@ -503,11 +564,11 @@
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-edu"></div>
             </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
 
-    <!-- MODAL DE CONTACTO -->
     <div class="modal-overlay" id="contact-modal">
         <div class="modal-content">
             <button class="btn-close-modal" onclick="toggleModal(false)"><i class="fa-solid fa-times"></i></button>
@@ -523,6 +584,8 @@
                     <option value="salud">Salud / Farmacéutica</option>
                     <option value="legal">Legal</option>
                     <option value="retail">Retail / Comercio</option>
+                    <option value="logistica">Logística</option>
+                    <option value="finanzas">Finanzas</option>
                     <option value="otra">Otra</option>
                 </select>
                 <textarea placeholder="Cuéntanos tus necesidades específicas" rows="4"></textarea>
@@ -535,24 +598,28 @@
         // Navegación SPA
         function switchView(viewName) {
             const home = document.getElementById('view-home');
-            
-            // Ocultar todas las vistas primero
-            document.querySelectorAll('.view-container').forEach(v => {
+            const target = document.getElementById('view-' + viewName);
+
+            // 1. Desactivar y ocultar la vista activa (con animación)
+            document.querySelectorAll('.view-container.view-active').forEach(v => {
                 v.classList.remove('view-active');
-                // Pequeño timeout para display:none
-                setTimeout(() => v.style.display = 'none', 300); 
+                // IMPORTANTE: Usamos un retraso para asegurar que la animación se ejecute
+                setTimeout(() => v.style.display = 'none', 400); 
             });
 
+            // 2. Mostrar y activar la nueva vista
             if (viewName === 'home') {
                 home.style.display = 'flex';
-                setTimeout(() => home.classList.add('view-active'), 10);
+                // Usamos un timeout corto para asegurar la transición
+                setTimeout(() => home.classList.add('view-active'), 50); 
             } else {
-                const target = document.getElementById('view-' + viewName);
-                target.style.display = 'block';
-                setTimeout(() => {
-                    target.classList.add('view-active');
-                    window.scrollTo(0,0);
-                }, 10);
+                if (target) {
+                    target.style.display = 'block';
+                    setTimeout(() => {
+                        target.classList.add('view-active');
+                        window.scrollTo(0, 0);
+                    }, 50);
+                }
             }
         }
 
@@ -570,12 +637,34 @@
         const btnId = "BFYND2G5D64UA";
         function renderBtn(container) {
             try {
-                document.getElementById(container).innerHTML = "";
-                paypal.HostedButtons({ hostedButtonId: btnId }).render("#" + container);
-            } catch(e) {}
+                // Verificar si paypal está cargado
+                if (typeof paypal !== 'undefined') {
+                    document.getElementById(container).innerHTML = "";
+                    // Usamos el ID del botón fijo para todos los contenedores
+                    paypal.HostedButtons({ hostedButtonId: btnId }).render("#" + container);
+                } else {
+                    // Si PayPal no está listo, intentamos de nuevo o ponemos un placeholder
+                    setTimeout(() => renderBtn(container), 200); 
+                }
+            } catch(e) {
+                console.error("Error al renderizar botón de PayPal:", e);
+            }
         }
 
+        // Asegurar que la vista HOME inicie correctamente y se carguen los botones de PayPal
         window.onload = function() {
+            // Asegurarse de que solo la vista home sea visible inicialmente
+            document.querySelectorAll('.view-container').forEach(v => {
+                if(v.id !== 'view-home') {
+                    v.style.display = 'none';
+                    v.classList.remove('view-active');
+                } else {
+                    v.style.display = 'flex';
+                    v.classList.add('view-active');
+                }
+            });
+
+            // Renderizar todos los botones de PayPal
             renderBtn("paypal-gob");
             renderBtn("paypal-ven");
             renderBtn("paypal-adm");
@@ -584,5 +673,3 @@
     </script>
 </body>
 </html>
-
-
