@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Champions AI | Estándar de Productividad con IA</title>
+    <title>Champions AI | El 80/20 de la Productividad</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,9 +19,9 @@
             --bg-dark: #050A14;
             --text-light: #ffffff;
             --accent-blue: #00B4D8; /* Gobierno: Azul Eléctrico */
-            --accent-green: #2ECC71; /* Ventas: Naranja Brillante - Ajustado a Verde para el diseño */
-            --accent-purple: #9B59B6; /* Admin/Operaciones: Morado */
-            --accent-gold: #F1C40F; /* Educativo: Dorado */
+            --accent-green: #2ECC71; /* Ventas */
+            --accent-purple: #9B59B6; /* Admin/Operaciones */
+            --accent-gold: #F1C40F; /* Educativo */
             
             /* UI CONSTANTS */
             --radius: 16px;
@@ -220,6 +220,16 @@
         /* Price */
         .price-section { padding: 3rem 1.5rem; text-align: center; border-top-left-radius: 30px; border-top-right-radius: 30px; background: rgba(0,0,0,0.2); }
         .price-display { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        
+        /* PAYMENT OPTIONS */
+        .payment-options { 
+            margin-top: 1rem; 
+            padding: 1rem 0; 
+            border-top: 1px dashed rgba(255,255,255,0.1);
+        }
+        .payment-options p { font-size: 0.9rem; margin-bottom: 0.7rem; font-weight: 600; }
+        .payment-icons { display: flex; justify-content: center; gap: 15px; }
+        .payment-icons img { width: 45px; height: 30px; object-fit: contain; }
 
         /* --- ESTILOS ESPECÍFICOS POR TEMA --- */
         
@@ -231,6 +241,7 @@
         #view-gobierno .module-item { border-left-color: #eee; }
         #view-gobierno .module-item::before { background: #fff; border-color: var(--accent-blue); }
         #view-gobierno .price-section { background: #0A1E30; color: white; }
+        #view-gobierno .payment-options p { border-top: 1px dashed rgba(255,255,255,0.3); }
 
         /* VENTAS (DARK GREEN) */
         #view-ventas { background: #051208; color: #eefcf2; }
@@ -377,11 +388,19 @@
 
         <div class="price-section">
             <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Únete a AVANZA</h2>
-            <div class="price-display" style="color:#00B4D8;">$99 USD</div>
+            <div class="price-display" style="color:#00B4D8;">$199 USD</div>
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-gob"></div> 
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
+            <div class="payment-options">
+                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
+                <div class="payment-icons">
+                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
+                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
+                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
+                </div>
+            </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
@@ -438,11 +457,19 @@
 
         <div class="price-section">
             <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Acelera tus Ventas</h2>
-            <div class="price-display">$99 USD</div>
+            <div class="price-display">$199 USD</div>
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-ven"></div>
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
+            <div class="payment-options">
+                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
+                <div class="payment-icons">
+                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
+                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
+                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
+                </div>
+            </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
@@ -499,11 +526,19 @@
 
         <div class="price-section">
             <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Optimiza tu Trabajo</h2>
-            <div class="price-display">$99 USD</div>
+            <div class="price-display">$199 USD</div>
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-adm"></div>
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
+            <div class="payment-options">
+                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
+                <div class="payment-icons">
+                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
+                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
+                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
+                </div>
+            </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
@@ -560,11 +595,19 @@
 
         <div class="price-section">
             <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Transforma tu Aula</h2>
-            <div class="price-display">$99 USD</div>
+            <div class="price-display">$199 USD</div>
             <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
                 <div id="paypal-edu"></div>
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1000 GTQ. Precio altamente competitivo en el mercado.</p>
+            <div class="payment-options">
+                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
+                <div class="payment-icons">
+                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
+                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
+                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
+                </div>
+            </div>
+            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
         </div>
     </div>
 
@@ -634,7 +677,7 @@
         }
 
         // Render PayPal (Reutilizando el mismo botón ID para todos por ahora)
-        const btnId = "BFYND2G5D64UA";
+        const btnId = "BFYND2G5D64UA"; // ESTE DEBE SER TU ID DE BOTÓN DE PAYPAL
         function renderBtn(container) {
             try {
                 // Verificar si paypal está cargado
