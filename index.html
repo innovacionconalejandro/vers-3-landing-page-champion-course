@@ -2,716 +2,708 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Champions AI | El 80/20 de la Productividad</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions AI - Ant-Ara Strategic Group</title>
+    <!-- Fuentes e Iconos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/itc2Ghk.png">
 
+    <!-- Script PayPal -->
     <script src="https://www.paypal.com/sdk/js?client-id=BAA9PrQ0N3i30W_yPdOAVg0LY9nM_fDIOWrix_gzkYRYy15ThxzJSiKztbLAoxjyapXSpVSm4jmqzNynM&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
 
     <style>
         :root {
-            /* BRAND COLORS */
+            /* COLORES DE MARCA */
             --bg-dark: #050A14;
             --text-light: #ffffff;
-            --accent-blue: #00B4D8; /* Gobierno: Azul Eléctrico */
-            --accent-green: #2ECC71; /* Ventas */
-            --accent-purple: #9B59B6; /* Admin/Operaciones */
-            --accent-gold: #F1C40F; /* Educativo */
             
-            /* UI CONSTANTS */
+            /* Colores de Acento por Sector */
+            --accent-gob: #AAB7B8;  /* Plata */
+            --accent-gob-glow: #00B4D8; /* Azul Eléctrico */
+            
+            --accent-ven: #2ECC71; /* Verde */
+            --accent-adm: #E74C3C; /* Rojo (antes Púrpura, ajustado a Rojo Admin) */
+            --accent-edu: #F1C40F; /* Dorado */
+            
             --radius: 16px;
-            --transition: 0.3s ease;
+            --transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Nunito', sans-serif; background-color: var(--bg-dark); color: white; overflow-x: hidden; }
 
-        /* --- SPA VIEW SYSTEM --- */
+        /* --- SPA SYSTEM --- */
         .view-container {
             width: 100%; min-height: 100vh; position: absolute; top: 0; left: 0;
-            transition: opacity var(--transition), transform var(--transition);
+            transition: opacity 0.4s ease, transform 0.4s ease;
             background: var(--bg-dark);
-            padding-bottom: 3rem;
-            display: none; 
-            opacity: 0;
-            pointer-events: none;
+            padding-bottom: 6rem;
+            display: none; opacity: 0; pointer-events: none;
         }
         .view-active { display: block; opacity: 1; pointer-events: all; z-index: 10; position: relative; animation: fadeIn 0.4s ease-out; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        /* =========================================
-           VISTA 1: HOME (CHAMPIONS AI - DARK)
-           ========================================= */
+        /* --- VISTA HOME --- */
         #view-home {
             background: radial-gradient(circle at top, #1a2a44 0%, #050A14 60%);
             display: flex; flex-direction: column; align-items: center;
         }
 
-        .home-header { padding: 4rem 1.5rem 2rem; text-align: center; max-width: 800px; }
+        .home-header { padding: 3.5rem 1.5rem 1rem; text-align: center; max-width: 800px; }
         
-        /* --- EFECTO AURA IRIDISCENTE (META-LIKE) --- */
+        /* LOGO PRINCIPAL */
         .main-logo-container {
-            width: 130px; height: 130px; margin: 0 auto 1.5rem;
-            position: relative;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%;
-            /* El truco del fondo giratorio */
-            background: #050A14; /* Fondo oscuro para tapar el centro */
-            z-index: 1;
+            max-width: 260px; margin: 0 auto 1.5rem; position: relative; z-index: 1;
         }
+        .main-logo-img { width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,180,216,0.2)); }
 
-        /* El anillo brillante detrás */
-        .main-logo-container::before {
-            content: '';
-            position: absolute;
-            top: -4px; left: -4px; right: -4px; bottom: -4px;
-            background: conic-gradient(
-                from 0deg, 
-                var(--accent-blue), 
-                var(--accent-green), 
-                var(--accent-gold), 
-                var(--accent-purple), 
-                var(--accent-blue) /* Repetir el primero para cerrar el ciclo suavemente */
-            );
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(8px); /* El efecto "glow" o neón */
-            animation: spin-aura 4s linear infinite; /* Girando suavemente */
+        /* TRUST BAR */
+        .trust-bar {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px; border-radius: 20px;
+            margin-bottom: 1.5rem; display: inline-flex; gap: 10px; align-items: center;
+            font-size: 0.8rem; color: #ccc; border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
         }
+        .trust-bar i { color: var(--accent-edu); }
 
-        /* Un segundo anillo más nítido para definir el borde */
-        .main-logo-container::after {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            background: conic-gradient(
-                from 0deg, 
-                var(--accent-blue), 
-                var(--accent-green), 
-                var(--accent-gold), 
-                var(--accent-purple), 
-                var(--accent-blue)
-            );
-            border-radius: 50%;
-            z-index: -1;
-            animation: spin-aura 4s linear infinite;
-        }
+        .brand-h1 { font-family: 'Epilogue', sans-serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 0.8rem; line-height: 1.1; letter-spacing: -0.5px; }
+        .brand-p { font-size: 1.1rem; color: #a0aab5; line-height: 1.6; max-width: 600px; margin: 0 auto; }
 
-        @keyframes spin-aura {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* La imagen del logo encima de todo */
-        .main-logo-img {
-            width: 100%; height: 100%; object-fit: contain;
-            border-radius: 50%;
-            background: var(--bg-dark); /* Asegura que el logo tenga fondo oscuro */
-            padding: 2px; /* Pequeño margen interno */
-            z-index: 2;
-        }
-
-
-        .brand-h1 { font-family: 'Epilogue', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; }
-        .brand-p { font-size: 1.1rem; color: #a0aab5; line-height: 1.6; }
-
-        /* GRID */
+        /* GRID SELECCION */
         .grid-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
-            padding: 0 1.5rem 4rem; max-width: 600px; width: 100%;
+            padding: 2rem 1.5rem 5rem; max-width: 600px; width: 100%;
         }
 
         .card-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: var(--radius); padding: 1.5rem 1rem; cursor: pointer; text-align: center;
-            transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); 
+            padding: 1.5rem 1rem; 
+            cursor: pointer; text-align: center;
+            transition: var(--transition); 
+            display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+            position: relative; overflow: hidden;
         }
-        .card-btn:hover { transform: translateY(-5px); }
-
-        .card-icon {
-            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #444;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white;
-            transition: var(--transition); z-index: 2;
+        .card-btn:hover { transform: translateY(-5px); background: rgba(255,255,255,0.06); }
+        
+        /* RINGS (CSS) */
+        .css-ring-icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            position: relative;
+            background: rgba(0,0,0,0.3);
         }
-        .card-title { font-family: 'Epilogue', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; }
+        
+        .gob .css-ring-icon { border-color: var(--accent-gob); color: var(--accent-gob-glow); box-shadow: 0 0 15px rgba(0,180,216,0.3); }
+        .ven .css-ring-icon { border-color: var(--accent-ven); color: var(--accent-ven); box-shadow: 0 0 15px rgba(46,204,113,0.3); }
+        .adm .css-ring-icon { border-color: var(--accent-adm); color: var(--accent-adm); box-shadow: 0 0 15px rgba(231,76,60,0.3); }
+        .edu .css-ring-icon { border-color: var(--accent-edu); color: var(--accent-edu); box-shadow: 0 0 15px rgba(241,196,15,0.3); }
 
-        /* Hover Effects */
-        .gob:hover { border-color: var(--accent-blue); box-shadow: 0 0 25px rgba(0,180,216,0.4); }
-        .gob:hover .card-icon { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .card-title { font-family: 'Epilogue', sans-serif; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-desc { font-size: 0.75rem; color: #888; line-height: 1.3; max-width: 90%; }
         
-        .ven:hover { border-color: var(--accent-green); box-shadow: 0 0 25px rgba(46, 204, 113, 0.4); }
-        .ven:hover .card-icon { border-color: var(--accent-green); color: var(--accent-green); }
-        
-        .adm:hover { border-color: var(--accent-purple); box-shadow: 0 0 25px rgba(155, 89, 182, 0.4); }
-        .adm:hover .card-icon { border-color: var(--accent-purple); color: var(--accent-purple); }
-        
-        .edu:hover { border-color: var(--accent-gold); box-shadow: 0 0 25px rgba(241, 196, 15, 0.4); }
-        .edu:hover .card-icon { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .gob:hover { border-color: var(--accent-gob-glow); }
+        .ven:hover { border-color: var(--accent-ven); }
+        .adm:hover { border-color: var(--accent-adm); }
+        .edu:hover { border-color: var(--accent-edu); }
 
-        /* PERSONALIZACIÓN (ARCOÍRIS) */
+        /* CUSTOM CARD (RAINBOW) */
         .card-custom {
-            grid-column: span 2; background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px dashed rgba(255,255,255,0.3); flex-direction: row; justify-content: center; text-align: left;
+            grid-column: span 2; 
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px dashed rgba(255,255,255,0.2);
+            flex-direction: row; justify-content: flex-start; text-align: left;
+            padding: 1.2rem 1.5rem; gap: 1.2rem;
         }
-        @keyframes rainbow-glow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .card-custom .css-ring-icon { width: 50px; height: 50px; font-size: 1.2rem; margin: 0; border-color: rgba(255,255,255,0.5); color: white; }
         .card-custom:hover {
             border-color: transparent;
-            background: linear-gradient(270deg, rgba(0,180,216,0.2), rgba(46,204,113,0.2), rgba(155,89,182,0.2), rgba(241,196,15,0.2));
-            background-size: 300% 300%; animation: rainbow-glow 4s ease infinite; box-shadow: 0 0 30px rgba(255,255,255,0.15);
+            background: linear-gradient(90deg, rgba(0,180,216,0.1), rgba(46,204,113,0.1), rgba(231,76,60,0.1), rgba(241,196,15,0.1));
+            animation: rainbow 3s ease infinite;
         }
-        .custom-text h3 { font-family: 'Epilogue'; font-size: 1rem; margin-bottom: 0.2rem; }
-        .custom-text p { font-size: 0.8rem; color: #aaa; }
+        @keyframes rainbow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* =========================================
-           COMPONENTES COMUNES INTERNOS
-           ========================================= */
+        /* --- INTERNAL --- */
         .nav-sticky {
             position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1);
             padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
         }
         .btn-back { border: none; background: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
         
-        .hero-internal { padding: 3rem 1.5rem 1rem; text-align: center; }
-        .hero-logo { width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-bottom: 1rem; object-fit: cover; }
-        .hero-title { font-family: 'Epilogue'; font-size: 2rem; line-height: 1.1; margin-bottom: 0.5rem; }
-        .hero-p { max-width: 500px; margin: 0 auto; opacity: 0.9; }
-        
-        /* OUV Título */
-        .ouv-claim { font-family: 'Epilogue', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1rem; padding: 0 1.5rem; }
+        .hero-internal { padding: 3rem 1.5rem 1.5rem; text-align: center; }
+        .hero-icon-large {
+            width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; border: 2px solid; background: rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-        /* Carrusel */
-        .carousel-wrapper {
-            display: flex; overflow-x: auto; gap: 15px; padding: 1.5rem 1.5rem 3rem;
-            scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;
-        }
-        .carousel-wrapper::-webkit-scrollbar { display: none; }
-        .c-slide {
-            flex: 0 0 85%; scroll-snap-align: center; border-radius: 12px; overflow: hidden;
-            position: relative; aspect-ratio: 16/9; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        .c-caption {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1rem 1rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: white; font-family: 'Epilogue'; font-size: 1rem; font-weight: 700;
-        }
-        .slide-icon-bg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: rgba(255,255,255,0.2); }
-
-        /* Syllabus */
         .syllabus-container { padding: 0 1.5rem 2rem; max-width: 800px; margin: 0 auto; }
-        .module-item { border-left: 3px solid rgba(255,255,255,0.1); padding-left: 1.5rem; margin-bottom: 2rem; position: relative; }
-        .module-item::before {
-            content: ''; position: absolute; left: -9px; top: 0;
-            width: 15px; height: 15px; background: var(--bg-dark); border: 3px solid #555; border-radius: 50%;
-        }
-        .mod-title { font-weight: 700; display: block; margin-bottom: 0.5rem; }
-        .mod-desc { font-size: 0.9rem; opacity: 0.7; line-height: 1.5; }
+        .section-title { font-family: 'Epilogue'; font-size: 1.1rem; color: #fff; margin-bottom: 1rem; text-align: center; opacity: 0.9; }
 
-        /* Price */
-        .price-section { padding: 3rem 1.5rem; text-align: center; border-top-left-radius: 30px; border-top-right-radius: 30px; background: rgba(0,0,0,0.2); }
-        .price-display { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        /* MODULE CARDS DETAIL */
+        .module-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex; align-items: flex-start; gap: 15px;
+            transition: var(--transition);
+        }
+        .module-card:hover { background: rgba(255, 255, 255, 0.06); transform: translateX(5px); }
+        .module-icon { font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; opacity: 0.8; }
+        .mod-title { font-family: 'Epilogue', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; display: block; color: #eee; }
+        .mod-desc { font-size: 0.85rem; color: #aaa; line-height: 1.4; }
+
+        .price-section { 
+            padding: 3rem 1.5rem; text-align: center; border-top-left-radius: 30px; border-top-right-radius: 30px; 
+            background: rgba(0,0,0,0.4); margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); 
+        }
+        .price-display { font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; }
         
-        /* PAYMENT OPTIONS */
-        .payment-options { 
-            margin-top: 1rem; 
-            padding: 1rem 0; 
-            border-top: 1px dashed rgba(255,255,255,0.1);
-        }
-        .payment-options p { font-size: 0.9rem; margin-bottom: 0.7rem; font-weight: 600; }
-        .payment-icons { display: flex; justify-content: center; gap: 15px; }
-        .payment-icons img { width: 45px; height: 30px; object-fit: contain; }
+        .payment-methods { display: flex; gap: 10px; justify-content: center; margin-top: 15px; opacity: 0.8; }
+        .pay-icon { height: 24px; object-fit: contain; }
 
-        /* --- ESTILOS ESPECÍFICOS POR TEMA --- */
-        
-        /* GOBIERNO (LIGHT) */
-        #view-gobierno { background: #ffffff; color: #333; }
-        #view-gobierno .nav-sticky { background: rgba(255,255,255,0.95); border-bottom: 1px solid #eee; }
-        #view-gobierno .btn-back { color: #0A1E30; }
-        #view-gobierno .hero-internal { background: linear-gradient(180deg, #F4F7F9 0%, #fff 100%); }
-        #view-gobierno .module-item { border-left-color: #eee; }
-        #view-gobierno .module-item::before { background: #fff; border-color: var(--accent-blue); }
-        #view-gobierno .price-section { background: #0A1E30; color: white; }
-        #view-gobierno .payment-options p { border-top: 1px dashed rgba(255,255,255,0.3); }
+        .paypal-me-link {
+            display: block; margin-top: 15px; color: #aaa; font-size: 0.85rem; text-decoration: none; border-bottom: 1px dotted #555; display: inline-block;
+        }
 
-        /* VENTAS (DARK GREEN) */
-        #view-ventas { background: #051208; color: #eefcf2; }
-        #view-ventas .nav-sticky { background: rgba(5,18,8,0.95); border-color: rgba(46, 204, 113, 0.2); }
-        #view-ventas .btn-back { color: var(--accent-green); }
-        #view-ventas .module-item::before { border-color: var(--accent-green); }
-        #view-ventas .price-display { color: var(--accent-green); }
-        
-        /* ADMIN (DARK PURPLE) */
-        #view-admin { background: #120a1f; color: #f3eefc; }
-        #view-admin .nav-sticky { background: rgba(18,10,31,0.95); border-color: rgba(155, 89, 182, 0.2); }
-        #view-admin .btn-back { color: var(--accent-purple); }
-        #view-admin .module-item::before { border-color: var(--accent-purple); }
-        #view-admin .price-display { color: var(--accent-purple); }
+        /* --- ANTI CHATBOT (AI) --- */
+        .anti-widget {
+            position: fixed; bottom: 25px; right: 25px; z-index: 2000;
+            display: flex; flex-direction: column; align-items: flex-end;
+            pointer-events: none;
+        }
+        .anti-chat-window {
+            pointer-events: all; width: 300px; background: #111; border: 1px solid #444; border-radius: 16px;
+            margin-bottom: 15px; display: none; flex-direction: column; overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-header {
+            background: linear-gradient(90deg, #111, #222); padding: 12px 15px; border-bottom: 1px solid #333;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Epilogue', sans-serif; font-size: 0.9rem; font-weight: 700;
+        }
+        .chat-messages { height: 280px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #0d0d0d; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #333; display: flex; gap: 8px; background: #111; }
+        .chat-input { flex: 1; background: #222; border: 1px solid #333; border-radius: 20px; padding: 8px 12px; color: white; font-size: 0.85rem; }
+        .chat-send-btn { background: white; color: black; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; }
+        .msg-bot { align-self: flex-start; background: #222; color: #ddd; border-bottom-left-radius: 2px; }
+        .msg-user { align-self: flex-end; background: #333; color: #fff; border-bottom-right-radius: 2px; font-weight: 600; border: 1px solid #555;}
+        .typing-indicator { font-size: 0.7rem; color: #666; font-style: italic; margin-left: 10px; display: none; margin-bottom: 5px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* EDU (DARK GOLD) */
-        #view-edu { background: #1a1600; color: #fffbeb; }
-        #view-edu .nav-sticky { background: rgba(26,22,0,0.95); border-color: rgba(241, 196, 15, 0.2); }
-        #view-edu .btn-back { color: var(--accent-gold); }
-        #view-edu .module-item::before { border-color: var(--accent-gold); }
-        #view-edu .price-display { color: var(--accent-gold); }
+        .anti-avatar-btn {
+            pointer-events: all; width: 65px; height: 65px; border-radius: 50%; 
+            background: #000; border: 2px solid #666; overflow: hidden; cursor: pointer; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5); transition: transform 0.2s, border-color 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .anti-avatar-btn:hover { transform: scale(1.05); border-color: #fff; }
+        .anti-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- MODAL --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000;
-            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--transition); padding: 1.5rem;
+        /* --- URGENCY POPUP --- */
+        .urgency-popup {
+            position: fixed; bottom: 25px; left: 25px; z-index: 2000;
+            background: rgba(231, 76, 60, 0.95); color: white;
+            padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3); display: none; animation: pulse 2s infinite; align-items: center; gap: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .modal-active { opacity: 1; pointer-events: all; }
-        .modal-content {
-            background: #111; border: 1px solid #333; padding: 2rem; border-radius: 20px; width: 100%; max-width: 500px;
-            transform: translateY(20px); transition: var(--transition); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .modal-active .modal-content { transform: translateY(0); }
-        .btn-close-modal { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
-        .contact-form input, .contact-form textarea, .contact-form select {
-            width: 100%; padding: 1rem; margin-bottom: 1rem; background: #222; border: 1px solid #444; border-radius: 8px; color: white;
-        }
-        .contact-form button {
-            width: 100%; padding: 1rem; border-radius: 8px; border: none; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            color: white; font-weight: 700; font-family: 'Epilogue'; cursor: pointer; font-size: 1.1rem;
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* --- THEMES --- */
+        #view-gobierno { background: #0b1016; }
+        #view-gobierno .hero-title { color: var(--accent-gob-glow); }
+        #view-ventas { background: #051208; }
+        #view-ventas .hero-title { color: var(--accent-ven); }
+        #view-admin { background: #1a0505; }
+        #view-admin .hero-title { color: var(--accent-adm); }
+        #view-edu { background: #1a1600; }
+        #view-edu .hero-title { color: var(--accent-edu); }
 
     </style>
 </head>
 <body>
 
+    <div id="urgency-popup" class="urgency-popup">
+        <i class="fa-solid fa-fire"></i> ¡Últimos 5 cupos para febrero!
+    </div>
+
+    <!-- --- ANTI WIDGET --- -->
+    <div class="anti-widget">
+        <div id="anti-chat" class="anti-chat-window">
+            <div class="chat-header">
+                <span>ANTI AI Assistant</span>
+                <span onclick="toggleAnti()" style="cursor:pointer; opacity:0.6;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div class="chat-messages" id="chat-history">
+                <div class="msg msg-bot">
+                    Hola, soy <b>ANTI</b>. La próxima cohorte individual inicia el <b>9 de Febrero 2026</b>.<br><br>¿En qué puedo ayudarte?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typing">ANTI está escribiendo...</div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" class="chat-input" placeholder="Pregunta algo..." onkeypress="handleEnter(event)">
+                <button class="chat-send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="anti-avatar-btn" onclick="toggleAnti()">
+            <!-- ICONO ANTI CORRECTO (Isotipo Dark Mode 2) -->
+            <img src="https://i.imgur.com/oD63qAo.jpeg" alt="ANTI AI">
+        </div>
+    </div>
+
+    <!-- === VIEW: HOME === -->
     <div id="view-home" class="view-container view-active">
         <header class="home-header">
             <div class="main-logo-container">
-                <img src="https://i.imgur.com/94FzKYD.png" class="main-logo-img" alt="Champions AI">
+                <img src="https://i.imgur.com/PSndtgF.png" class="main-logo-img" alt="Champions AI">
             </div>
-            <h1 class="brand-h1">CHAMPIONS AI: El 80/20 de la Productividad</h1>
+            
+            <div class="trust-bar">
+                <i class="fa-solid fa-certificate"></i> +30 Líderes Certificados | Ready for Google & MS AI
+            </div>
+
+            <h1 class="brand-h1">Productividad Estratégica con IA</h1>
             <p class="brand-p">
-                Obtén resultados de **alto valor** en tu industria. El **80% es Estrategia** (Core), el **20% es la Solución de tu Sector** (Especialización).
+                Domina la <b>Base Universal</b> de productividad y especialízate en lo que <b>tu industria exige</b>.
             </p>
         </header>
 
         <div class="grid-container">
             <div class="card-btn gob" onclick="switchView('gobierno')">
-                <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
-                <span class="card-title">Gobierno y Municipalidades</span>
+                <div class="css-ring-icon"><i class="fa-solid fa-landmark"></i></div>
+                <span class="card-title">Gobierno</span>
+                <span class="card-desc">Digitaliza la gestión pública.</span>
             </div>
-
+            
             <div class="card-btn ven" onclick="switchView('ventas')">
-                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <span class="card-title">Ventas y Marketing</span>
+                <div class="css-ring-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <span class="card-title">Ventas</span>
+                <span class="card-desc">Cierra más con IA predictiva.</span>
             </div>
-
+            
             <div class="card-btn adm" onclick="switchView('admin')">
-                <div class="card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                <span class="card-title">Excelencia Operativa</span>
+                <div class="css-ring-icon"><i class="fa-solid fa-gears"></i></div>
+                <span class="card-title">Operaciones</span>
+                <span class="card-desc">Recupera 2 horas de tu día.</span>
             </div>
-
+            
             <div class="card-btn edu" onclick="switchView('edu')">
-                <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span class="card-title">Docencia y Educación</span>
+                <div class="css-ring-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="card-title">Academy</span>
+                <span class="card-desc">Lidera el aula del futuro.</span>
             </div>
 
-            <div class="card-btn card-custom" onclick="toggleModal(true)">
-                <div class="card-icon" style="border-color:white;"><i class="fa-solid fa-layer-group"></i></div>
-                <div class="custom-text">
-                    <h3>¿Tu industria no está aquí?</h3>
-                    <p>Adaptamos el curso a Salud, Logística, Finanzas y tu ruta de herramienta.</p>
+            <div class="card-btn card-custom" onclick="toggleAnti()">
+                <div class="css-ring-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div style="flex:1;">
+                    <span class="card-title">¿Tu industria no está aquí?</span>
+                    <span class="card-desc" style="display:block; margin-top:4px;">Chatea con ANTI para adaptar el curso a ti.</span>
                 </div>
             </div>
         </div>
 
-        <footer style="margin-top:auto; padding:2rem; text-align:center; opacity:0.5; font-size:0.8rem;">
-            © 2025 Ant-Ara Strategic Group
+        <footer style="margin-top:auto; padding:2rem; text-align:center; opacity:0.6; font-size:0.8rem;">
+            <img src="https://i.imgur.com/y2G8EWA.png" alt="Ant-Ara" style="height: 35px; margin-bottom: 10px; display:block; margin: 0 auto 10px;"><br>
+            © 2026 Ant-Ara Strategic Group<br>
+            Innovar con Alejandro
         </footer>
     </div>
 
-
+    <!-- === VIEW: GOBIERNO === -->
     <div id="view-gobierno" class="view-container">
-        <div class="nav-sticky">
-            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-            <span style="font-weight:800; color:#0A1E30;">AVANZA</span>
+        <div class="nav-sticky" style="border-color: rgba(170,183,184,0.3);">
+            <button class="btn-back" onclick="switchView('home')" style="color:var(--accent-gob-glow)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:white;">AVANZA</span>
         </div>
         <div class="hero-internal">
-            <img src="1000272619.jpg" class="hero-logo" alt="Logo Avanza">
-            <h2 class="hero-title" style="color:#0A1E30;">IA para Gestión Pública</h2>
-            <p class="hero-p" style="color:#555;">Optimiza trámites, atención ciudadana y toma de decisiones con datos.</p>
-            <p class="ouv-claim" style="color:#00B4D8;">**ENFOQUE CLAVE:** Uso de IA para análisis presupuestario y predicción de demanda de servicios.</p>
+            <div class="hero-icon-large" style="border-color:var(--accent-gob-glow); color:var(--accent-gob-glow);">
+                <i class="fa-solid fa-landmark"></i>
+            </div>
+            <h2 class="hero-title">Gestión Pública Digital</h2>
+            <p style="color:#aaa; max-width:500px; margin:0 auto;">
+                Reduce la burocracia, optimiza trámites y toma decisiones basadas en datos.
+            </p>
         </div>
-
-        <div class="carousel-wrapper">
-            <div class="c-slide" style="background: linear-gradient(135deg, #005691, #00B4D8);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-file-contract"></i></div>
-                <div class="c-caption">Digitalización y Servicios: Chatbots de atención ciudadana.</div>
-            </div>
-            <div class="c-slide" style="background: linear-gradient(135deg, #0A1E30, #2c3e50);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-chart-pie"></i></div>
-                <div class="c-caption">Transparencia: Análisis predictivo para seguridad y gestión de recursos.</div>
-            </div>
-            <div class="c-slide" style="background: #0093E9;">
-                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
-                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
-                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
-                </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Preparación para Google AI Essentials o Microsoft AI-900.</div>
-            </div>
-        </div>
-
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:#0A1E30; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Gobierno)</h3>
+            <div class="section-title">--- PENSUM DE 4 SEMANAS ---</div>
             
-            <div class="module-item">
-                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
-                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
-            </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
-                <p class="mod-desc">Anatomía del Prompt Perfecto (Rol, Tarea, Restricciones). Técnicas Avanzadas como Chain-of-Thought (CoT).</p>
-            </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
-                <p class="mod-desc">Automatización de tareas repetitivas (resúmenes, correos) y gestión de documentos con IA para insights clave.</p>
-            </div>
-            <div class="module-item" style="border-left-color: var(--accent-blue);">
-                <span class="mod-title" style="color:var(--accent-blue);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
-                <p class="mod-desc">**PROYECTO TÁCTICO:** Automatización de 3 Trámites Clave y desarrollo de modelos predictivos para la Gestión de Recursos Públicos.</p>
-            </div>
-        </div>
-
-        <div class="price-section">
-            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Únete a AVANZA</h2>
-            <div class="price-display" style="color:#00B4D8;">$199 USD</div>
-            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
-                <div id="paypal-gob"></div> 
-            </div>
-            <div class="payment-options">
-                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
-                <div class="payment-icons">
-                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
-                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
-                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-brain"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 1: Fundamentos (Core)</span>
+                    <p class="mod-desc">Mentalidad Champion AI, Ética y el nuevo paradigma laboral.</p>
                 </div>
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-comments"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 2: Prompting Maestro (Core)</span>
+                    <p class="mod-desc">Anatomía del Prompt Perfecto (Rol, Tarea, Restricción) y Chain-of-Thought.</p>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-bolt"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 3: Flujos Automatizados (Core)</span>
+                    <p class="mod-desc">Gestión de documentos, resúmenes automáticos y eficiencia administrativa.</p>
+                </div>
+            </div>
+            
+            <div class="module-card" style="border-color: var(--accent-gob-glow); background: rgba(0,180,216,0.08);">
+                <div class="module-icon" style="color:var(--accent-gob-glow);"><i class="fa-solid fa-star"></i></div>
+                <div class="module-content">
+                    <span class="mod-title" style="color:var(--accent-gob-glow);">Semana 4: Táctica (Especialización)</span>
+                    <p class="mod-desc"><b>PROYECTO:</b> Automatización de 3 Trámites Clave y Chatbots de Atención Ciudadana.</p>
+                </div>
+            </div>
+        </div>
+        <div class="price-section">
+            <h2>AVANZA Gobierno</h2>
+            <div class="price-display" style="color:var(--accent-gob-glow);">$199 USD</div>
+            <div style="background:white; padding:10px; border-radius:12px; max-width:300px; margin:1rem auto;">
+                <div id="paypal-gob"></div>
+            </div>
+            <div class="payment-methods">
+                <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal" class="pay-icon">
+                <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay" class="pay-icon">
+                <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay" class="pay-icon">
+            </div>
+            <a href="https://paypal.me/innovarconalejandro" target="_blank" class="paypal-me-link">O paga directamente aquí</a>
         </div>
     </div>
 
-
+    <!-- === VIEW: VENTAS === -->
     <div id="view-ventas" class="view-container">
-        <div class="nav-sticky">
-            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-            <span style="font-weight:800; color:var(--accent-green);">GROWTH</span>
+        <div class="nav-sticky" style="border-color: rgba(46,204,113,0.3);">
+            <button class="btn-back" onclick="switchView('home')" style="color:var(--accent-ven)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:white;">GROWTH</span>
         </div>
         <div class="hero-internal">
-            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-green); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#051208; font-size:2.5rem;"><i class="fa-solid fa-rocket"></i></div>
-            <h2 class="hero-title" style="color:var(--accent-green);">Ventas y Marketing</h2>
-            <p class="hero-p">Optimización de embudos, contenido publicitario y análisis de mercado con IA.</p>
-            <p class="ouv-claim" style="color:var(--accent-green);">**ENFOQUE CLAVE:** Profundiza en el uso de IA para segmentación y copywriting de alto rendimiento.</p>
+            <div class="hero-icon-large" style="border-color:var(--accent-ven); color:var(--accent-ven);">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h2 class="hero-title">Ventas de Alto Impacto</h2>
+            <p style="color:#aaa; max-width:500px; margin:0 auto;">
+                Deja de perseguir leads fríos. Usa IA para segmentación y copywriting persuasivo.
+            </p>
         </div>
-
-        <div class="carousel-wrapper">
-            <div class="c-slide" style="background: linear-gradient(135deg, #051208, #145A32);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div class="c-caption">Copywriting: Generación de contenido publicitario que convierte.</div>
-            </div>
-            <div class="c-slide" style="background: linear-gradient(135deg, #145A32, #27AE60);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-handshake"></i></div>
-                <div class="c-caption">Análisis: Análisis predictivo de leads y casos prácticos en CRMs.</div>
-            </div>
-            <div class="c-slide" style="background: #27AE60;">
-                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#051208; padding-bottom:1rem;">
-                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
-                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
-                </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Preparación para Google AI Essentials o Microsoft AI-900.</div>
-            </div>
-        </div>
-
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Ventas)</h3>
-            <div class="module-item">
-                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
-                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
+            <div class="section-title">--- PENSUM DE 4 SEMANAS ---</div>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-brain"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 1: Fundamentos (Core)</span>
+                    <p class="mod-desc">Mentalidad Champion AI, Ética y nuevo paradigma comercial.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
-                <p class="mod-desc">Anatomía del Prompt Perfecto (Roles, Tarea, Restricciones). Práctica con herramientas generativas clave.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-comments"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 2: Prompting Maestro (Core)</span>
+                    <p class="mod-desc">Prompting para ideación de contenido y soluciones de venta.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
-                <p class="mod-desc">Automatización de tareas repetitivas (resúmenes, correos) y extracción de insights de textos largos con IA.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-bolt"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 3: Flujos Automatizados (Core)</span>
+                    <p class="mod-desc">Automatización de CRM, correos y extracción de insights de clientes.</p>
+                </div>
             </div>
-            <div class="module-item" style="border-left-color: var(--accent-green);">
-                <span class="mod-title" style="color:var(--accent-green);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
-                <p class="mod-desc">**PROYECTO TÁCTICO:** Módulos especializados en Segmentación de Audiencias, Copywriting de Alto Rendimiento y Análisis Predictivo de Leads.</p>
+            
+            <div class="module-card" style="border-color: var(--accent-ven); background: rgba(46,204,113,0.08);">
+                <div class="module-icon" style="color:var(--accent-ven);"><i class="fa-solid fa-star"></i></div>
+                <div class="module-content">
+                    <span class="mod-title" style="color:var(--accent-ven);">Semana 4: Táctica (Especialización)</span>
+                    <p class="mod-desc"><b>PROYECTO:</b> Segmentación Predictiva, Copywriting y Embudos Automatizados.</p>
+                </div>
             </div>
         </div>
-
         <div class="price-section">
-            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Acelera tus Ventas</h2>
-            <div class="price-display">$199 USD</div>
-            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+            <h2>GROWTH Ventas</h2>
+            <div class="price-display" style="color:var(--accent-ven);">$199 USD</div>
+            <div style="background:white; padding:10px; border-radius:12px; max-width:300px; margin:1rem auto;">
                 <div id="paypal-ven"></div>
             </div>
-            <div class="payment-options">
-                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
-                <div class="payment-icons">
-                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
-                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
-                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
-                </div>
+            <div class="payment-methods">
+                <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal" class="pay-icon">
+                <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay" class="pay-icon">
+                <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay" class="pay-icon">
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
+            <a href="https://paypal.me/innovarconalejandro" target="_blank" class="paypal-me-link">O paga directamente aquí</a>
         </div>
     </div>
 
-
+    <!-- === VIEW: ADMIN === -->
     <div id="view-admin" class="view-container">
-        <div class="nav-sticky">
-            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-            <span style="font-weight:800; color:var(--accent-purple);">OPERACIONES</span>
+        <div class="nav-sticky" style="border-color: rgba(231,76,60,0.3);">
+            <button class="btn-back" onclick="switchView('home')" style="color:var(--accent-adm)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:white;">OPS</span>
         </div>
         <div class="hero-internal">
-            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-purple); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5rem;"><i class="fa-solid fa-gears"></i></div>
-            <h2 class="hero-title" style="color:var(--accent-purple);">Excelencia Operativa</h2>
-            <p class="hero-p">Recupera 2 horas de tu día. Automatiza reportes, correos y tareas repetitivas.</p>
-            <p class="ouv-claim" style="color:var(--accent-purple);">**ENFOQUE CLAVE:** Optimización de Cadenas de Suministro y Automatización de Procesos de Negocio (RPA).</p>
+            <div class="hero-icon-large" style="border-color:var(--accent-adm); color:var(--accent-adm);">
+                <i class="fa-solid fa-gears"></i>
+            </div>
+            <h2 class="hero-title">Excelencia Operativa</h2>
+            <p style="color:#aaa; max-width:500px; margin:0 auto;">
+                Elimina el caos. Estandariza reportes, minutas y procesos repetitivos.
+            </p>
         </div>
-
-        <div class="carousel-wrapper">
-            <div class="c-slide" style="background: linear-gradient(135deg, #2c3e50, #4a235a);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-table"></i></div>
-                <div class="c-caption">Datos y Excel: Limpieza, análisis y estructuración de información no organizada.</div>
-            </div>
-            <div class="c-slide" style="background: linear-gradient(135deg, #4a235a, #8E44AD);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-pen-nib"></i></div>
-                <div class="c-caption">Redacción Corporativa: Minutas, informes y correos perfectos.</div>
-            </div>
-            <div class="c-slide" style="background: #8E44AD;">
-                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding-bottom:1rem;">
-                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
-                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
-                </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2);">Preparación para Google AI Essentials o Microsoft AI-900.</div>
-            </div>
-        </div>
-
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Operaciones)</h3>
-            <div class="module-item">
-                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
-                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
+            <div class="section-title">--- PENSUM DE 4 SEMANAS ---</div>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-brain"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 1: Fundamentos (Core)</span>
+                    <p class="mod-desc">Mentalidad Champion AI, Ética y eficiencia operativa.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
-                <p class="mod-desc">Anatomía del Prompt Perfecto. Técnicas Avanzadas: Chain-of-Thought para la resolución de problemas.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-comments"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 2: Prompting Maestro (Core)</span>
+                    <p class="mod-desc">Chain-of-Thought para resolución de problemas complejos y lógica.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
-                <p class="mod-desc">Automatización de Tareas Repetitivas (resúmenes de reuniones, redacción de correos) y extracción de insights clave.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-bolt"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 3: Flujos Automatizados (Core)</span>
+                    <p class="mod-desc">Automatización de reportes, resúmenes de reuniones y limpieza de datos.</p>
+                </div>
             </div>
-            <div class="module-item" style="border-left-color: var(--accent-purple);">
-                <span class="mod-title" style="color:var(--accent-purple);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
-                <p class="mod-desc">**PROYECTO TÁCTICO:** Optimización de Cadena de Suministro (Predicción de demanda) y Automatización de Procesos de Negocio (RPA y Chatbots).</p>
+            
+            <div class="module-card" style="border-color: var(--accent-adm); background: rgba(231,76,60,0.08);">
+                <div class="module-icon" style="color:var(--accent-adm);"><i class="fa-solid fa-star"></i></div>
+                <div class="module-content">
+                    <span class="mod-title" style="color:var(--accent-adm);">Semana 4: Táctica (Especialización)</span>
+                    <p class="mod-desc"><b>PROYECTO:</b> RPA para Excel, Optimización de Cadena de Suministro y Procesos.</p>
+                </div>
             </div>
         </div>
-
         <div class="price-section">
-            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Optimiza tu Trabajo</h2>
-            <div class="price-display">$199 USD</div>
-            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+            <h2>OPS Admin</h2>
+            <div class="price-display" style="color:var(--accent-adm);">$199 USD</div>
+            <div style="background:white; padding:10px; border-radius:12px; max-width:300px; margin:1rem auto;">
                 <div id="paypal-adm"></div>
             </div>
-            <div class="payment-options">
-                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
-                <div class="payment-icons">
-                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
-                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
-                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
-                </div>
+            <div class="payment-methods">
+                <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal" class="pay-icon">
+                <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay" class="pay-icon">
+                <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay" class="pay-icon">
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
+            <a href="https://paypal.me/innovarconalejandro" target="_blank" class="paypal-me-link">O paga directamente aquí</a>
         </div>
     </div>
 
-
+    <!-- === VIEW: EDUCACION === -->
     <div id="view-edu" class="view-container">
-        <div class="nav-sticky">
-            <button class="btn-back" onclick="switchView('home')"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-            <span style="font-weight:800; color:var(--accent-gold);">ACADEMY</span>
+        <div class="nav-sticky" style="border-color: rgba(241,196,15,0.3);">
+            <button class="btn-back" onclick="switchView('home')" style="color:var(--accent-edu)"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+            <span style="font-weight:800; color:white;">ACADEMY</span>
         </div>
         <div class="hero-internal">
-            <div style="width:90px; height:90px; border-radius:50%; background:var(--accent-gold); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#1a1600; font-size:2.5rem;"><i class="fa-solid fa-graduation-cap"></i></div>
-            <h2 class="hero-title" style="color:var(--accent-gold);">Innovación Académica</h2>
-            <p class="hero-p">Personaliza el aprendizaje, automatiza tareas administrativas y creación de materiales.</p>
-            <p class="ouv-claim" style="color:var(--accent-gold);">**ENFOQUE CLAVE:** Diseña rutas de aprendizaje adaptativas y automatiza la calificación de exámenes.</p>
+            <div class="hero-icon-large" style="border-color:var(--accent-edu); color:var(--accent-edu);">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h2 class="hero-title">Innovación Educativa</h2>
+            <p style="color:#aaa; max-width:500px; margin:0 auto;">
+                Personaliza el aprendizaje. Crea rúbricas y material didáctico en segundos.
+            </p>
         </div>
-
-        <div class="carousel-wrapper">
-            <div class="c-slide" style="background: linear-gradient(135deg, #332b00, #F1C40F);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-book-open"></i></div>
-                <div class="c-caption">Planificación: Creación automatizada de planes de estudio, rúbricas y ejercicios.</div>
-            </div>
-            <div class="c-slide" style="background: linear-gradient(135deg, #F1C40F, #d4ac0d);">
-                <div class="slide-icon-bg"><i class="fa-solid fa-chalkboard-user"></i></div>
-                <div class="c-caption">Personalización: Sistemas de recomendación y tutoria inteligente.</div>
-            </div>
-            <div class="c-slide" style="background: #F1C40F;">
-                <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#1a1600; padding-bottom:1rem;">
-                    <i class="fa-solid fa-certificate" style="font-size:3rem; margin-bottom:0.5rem;"></i>
-                    <div style="font-weight:800; font-size:1.2rem;">CERTIPROF GAIPC</div>
-                </div>
-                <div class="c-caption" style="background:rgba(0,0,0,0.2); color:white;">Preparación para Google AI Essentials o Microsoft AI-900.</div>
-            </div>
-        </div>
-
         <div class="syllabus-container">
-            <h3 style="font-family:'Epilogue'; color:white; margin-bottom:1.5rem; text-align:center;">Temario de 4 Semanas (Docencia)</h3>
-            <div class="module-item">
-                <span class="mod-title">Semana 1: Fundamentos y Mentalidad Champion AI (CORE 80%)</span>
-                <p class="mod-desc">El rol del Champion AI: IA Generativa vs Predictiva, ética y el nuevo paradigma laboral.</p>
+            <div class="section-title">--- PENSUM DE 4 SEMANAS ---</div>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-brain"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 1: Fundamentos (Core)</span>
+                    <p class="mod-desc">Mentalidad Champion AI, Ética y transformación académica.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 2: Maestría en Prompting (CORE 80%)</span>
-                <p class="mod-desc">Anatomía del Prompt Perfecto. Prompting para la ideación generativa de contenidos y soluciones.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-comments"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 2: Prompting Maestro (Core)</span>
+                    <p class="mod-desc">Ideación generativa de contenidos, exámenes y ejercicios.</p>
+                </div>
             </div>
-            <div class="module-item">
-                <span class="mod-title">Semana 3: Optimización del Flujo de Trabajo (CORE 80%)</span>
-                <p class="mod-desc">Automatización de Tareas Repetitivas (ej. resúmenes de textos, gestión de calendario) y extracción de insights.</p>
+
+            <div class="module-card">
+                <div class="module-icon" style="color:white;"><i class="fa-solid fa-bolt"></i></div>
+                <div class="module-content">
+                    <span class="mod-title">Semana 3: Flujos Automatizados (Core)</span>
+                    <p class="mod-desc">Automatización de tareas administrativas, correos y calendario.</p>
+                </div>
             </div>
-            <div class="module-item" style="border-left-color: var(--accent-gold);">
-                <span class="mod-title" style="color:var(--accent-gold);">Semana 4: Especialización y Resultado (20% TÁCTICO)</span>
-                <p class="mod-desc">**PROYECTO TÁCTICO:** Módulos especializados en Rutas de Aprendizaje Adaptativas, Automatización de Calificación y Análisis Predictivo de Deserción Estudiantil.</p>
+            
+            <div class="module-card" style="border-color: var(--accent-edu); background: rgba(241,196,15,0.08);">
+                <div class="module-icon" style="color:var(--accent-edu);"><i class="fa-solid fa-star"></i></div>
+                <div class="module-content">
+                    <span class="mod-title" style="color:var(--accent-edu);">Semana 4: Táctica (Especialización)</span>
+                    <p class="mod-desc"><b>PROYECTO:</b> Rutas de Aprendizaje Adaptativas, Tutoría Inteligente y Calificación Auto.</p>
+                </div>
             </div>
         </div>
-
         <div class="price-section">
-            <h2 style="font-family:'Epilogue'; margin-bottom:0.5rem;">Transforma tu Aula</h2>
-            <div class="price-display">$199 USD</div>
-            <div style="background:white; padding:1.5rem; border-radius:12px; max-width:400px; margin:0 auto; color:#333;">
+            <h2>ACADEMY</h2>
+            <div class="price-display" style="color:var(--accent-edu);">$199 USD</div>
+            <div style="background:white; padding:10px; border-radius:12px; max-width:300px; margin:1rem auto;">
                 <div id="paypal-edu"></div>
             </div>
-            <div class="payment-options">
-                <p>Aceptamos todas las tarjetas | Pago 100% seguro</p>
-                <div class="payment-icons">
-                    <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal Logo">
-                    <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay Logo">
-                    <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay Logo">
-                </div>
+            <div class="payment-methods">
+                <img src="https://i.imgur.com/5tFfG0k.png" alt="PayPal" class="pay-icon">
+                <img src="https://i.imgur.com/8xG1r7z.png" alt="Apple Pay" class="pay-icon">
+                <img src="https://i.imgur.com/vH3s1q5.png" alt="Google Pay" class="pay-icon">
             </div>
-            <p style="margin-top:1rem; font-size:0.8rem; opacity:0.8;">Costo máximo Q1800 GTQ. Precio altamente competitivo en el mercado.</p>
-        </div>
-    </div>
-
-
-    <div class="modal-overlay" id="contact-modal">
-        <div class="modal-content">
-            <button class="btn-close-modal" onclick="toggleModal(false)"><i class="fa-solid fa-times"></i></button>
-            <h2 style="font-family:'Epilogue'; margin-bottom:1rem;">Personaliza tu Programa</h2>
-            <p style="color:#ccc; margin-bottom:2rem;">Déjanos tus datos y diseñaremos una propuesta para tu industria o empresa.</p>
-            
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Gracias! Te contactaremos pronto.'); toggleModal(false);">
-                <input type="text" placeholder="Nombre completo" required>
-                <input type="email" placeholder="Correo electrónico" required>
-                <select required>
-                    <option value="" disabled selected>Selecciona tu Industria</option>
-                    <option value="inmobiliaria">Inmobiliaria</option>
-                    <option value="salud">Salud / Farmacéutica</option>
-                    <option value="legal">Legal</option>
-                    <option value="retail">Retail / Comercio</option>
-                    <option value="logistica">Logística</option>
-                    <option value="finanzas">Finanzas</option>
-                    <option value="otra">Otra</option>
-                </select>
-                <textarea placeholder="Cuéntanos tus necesidades específicas" rows="4"></textarea>
-                <button type="submit">Solicitar Propuesta</button>
-            </form>
+            <a href="https://paypal.me/innovarconalejandro" target="_blank" class="paypal-me-link">O paga directamente aquí</a>
         </div>
     </div>
 
     <script>
-        // Navegación SPA
-        function switchView(viewName) {
-            const home = document.getElementById('view-home');
-            const target = document.getElementById('view-' + viewName);
+        const apiKey = ""; // La API key se inyecta automáticamente
 
-            // 1. Desactivar y ocultar la vista activa (con animación)
-            document.querySelectorAll('.view-container.view-active').forEach(v => {
+        // SPA NAVIGATION
+        function switchView(viewName) {
+            const views = document.querySelectorAll('.view-container');
+            views.forEach(v => {
                 v.classList.remove('view-active');
-                // IMPORTANTE: Usamos un retraso para asegurar que la animación se ejecute
-                setTimeout(() => v.style.display = 'none', 400); 
+                setTimeout(() => { if(!v.classList.contains('view-active')) v.style.display = 'none'; }, 400);
             });
 
-            // 2. Mostrar y activar la nueva vista
-            if (viewName === 'home') {
-                home.style.display = 'flex';
-                // Usamos un timeout corto para asegurar la transición
-                setTimeout(() => home.classList.add('view-active'), 50); 
-            } else {
-                if (target) {
-                    target.style.display = 'block';
-                    setTimeout(() => {
-                        target.classList.add('view-active');
-                        window.scrollTo(0, 0);
-                    }, 50);
-                }
+            const target = document.getElementById('view-' + viewName);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.classList.add('view-active');
+                    window.scrollTo(0,0);
+                }, 50);
             }
         }
 
-        // Control del Modal
-        function toggleModal(show) {
-            const modal = document.getElementById('contact-modal');
-            if (show) {
-                modal.classList.add('modal-active');
+        // ANTI TOGGLE
+        function toggleAnti() {
+            const chatWindow = document.getElementById('anti-chat');
+            const currentDisplay = window.getComputedStyle(chatWindow).display;
+            
+            if (currentDisplay === 'none') {
+                chatWindow.style.display = 'flex';
+                document.getElementById('user-input').focus();
             } else {
-                modal.classList.remove('modal-active');
+                chatWindow.style.display = 'none';
             }
         }
 
-        // Render PayPal (Reutilizando el mismo botón ID para todos por ahora)
-        const btnId = "BFYND2G5D64UA"; // ESTE DEBE SER TU ID DE BOTÓN DE PAYPAL
+        // GEMINI AI
+        async function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const userText = inputField.value.trim();
+            if (!userText) return;
+
+            appendMessage(userText, 'user');
+            inputField.value = '';
+
+            const typingIndicator = document.getElementById('typing');
+            typingIndicator.style.display = 'block';
+            
+            const chatHistory = document.getElementById('chat-history');
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const responseText = await callGemini(userText);
+                typingIndicator.style.display = 'none';
+                appendMessage(responseText, 'bot');
+            } catch (error) {
+                typingIndicator.style.display = 'none';
+                appendMessage("Lo siento, mis circuitos están ocupados.", 'bot');
+            }
+        }
+
+        function appendMessage(text, sender) {
+            const chatHistory = document.getElementById('chat-history');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender === 'user' ? 'msg-user' : 'msg-bot');
+            msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+            chatHistory.appendChild(msgDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function callGemini(prompt) {
+            const systemPrompt = `
+                Eres ANTI, el asistente de IA de Ant-Ara Strategic Group para el curso 'Champions AI'.
+                Tono: Profesional, experto, directo.
+                Datos:
+                - Fecha Cohorte Individual: 9 Feb 2026.
+                - Precio: $199 USD.
+                - Tracks: Gobierno (AVANZA), Ventas (GROWTH), Admin (OPS), Edu (ACADEMY).
+                - Estructura: 3 semanas Core + 1 Táctica.
+                Responde en español, máximo 3 frases.
+            `;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+
+            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sin respuesta.";
+        }
+
+        // URGENCY
+        setTimeout(() => {
+            document.getElementById('urgency-popup').style.display = 'flex';
+        }, 3000); 
+
+        // PAYPAL
+        const btnId = "BFYND2G5D64UA"; 
         function renderBtn(container) {
             try {
-                // Verificar si paypal está cargado
                 if (typeof paypal !== 'undefined') {
                     document.getElementById(container).innerHTML = "";
-                    // Usamos el ID del botón fijo para todos los contenedores
                     paypal.HostedButtons({ hostedButtonId: btnId }).render("#" + container);
                 } else {
-                    // Si PayPal no está listo, intentamos de nuevo o ponemos un placeholder
-                    setTimeout(() => renderBtn(container), 200); 
+                    setTimeout(() => renderBtn(container), 200);
                 }
-            } catch(e) {
-                console.error("Error al renderizar botón de PayPal:", e);
-            }
+            } catch(e) { console.error(e); }
         }
 
-        // Asegurar que la vista HOME inicie correctamente y se carguen los botones de PayPal
         window.onload = function() {
-            // Asegurarse de que solo la vista home sea visible inicialmente
-            document.querySelectorAll('.view-container').forEach(v => {
-                if(v.id !== 'view-home') {
-                    v.style.display = 'none';
-                    v.classList.remove('view-active');
-                } else {
-                    v.style.display = 'flex';
-                    v.classList.add('view-active');
-                }
-            });
-
-            // Renderizar todos los botones de PayPal
             renderBtn("paypal-gob");
             renderBtn("paypal-ven");
             renderBtn("paypal-adm");
             renderBtn("paypal-edu");
+            setTimeout(() => {
+                const chatWindow = document.getElementById('anti-chat');
+                if (window.getComputedStyle(chatWindow).display === 'none') chatWindow.style.display = 'flex';
+            }, 5000);
         };
     </script>
 </body>
